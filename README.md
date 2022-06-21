@@ -22,7 +22,7 @@ El proyecto está compuesto por dos tipos de trabajos:
 - Ingeniería de datos, que se encarga de ingestar y transformar las bases de datos en bruto en tablas que serán usadas en análisis
 - Análisis de datos, que se encarga de la exploración y el modelamiento de los datos limpios generados por ingeniería de datos
 
-Cada trabajo está compuesto de módulos:
+Cada trabajo está compuesto de módulos, y cada módulo de subanálisis
 
 #### Ingenieria de datos
 En ingeniería de datos cada módulo corresponde a un paso en el ciclo de vida de generar una base de datos para su análisis. Estos son:
@@ -35,6 +35,16 @@ En ingeniería de datos cada módulo corresponde a un paso en el ciclo de vida d
 - 07_response_uploading: Este módulo se reserva para propiamente subir los resultados del módulo de response_construction a los servicios relevantes.
 
 #### Análisis de datos
+
+
+#### Escogiendo el subanálisis
+
+Al momento tenemos 4 lineas de ataque:
+
+- *Linea 1:* Cuantifiación de reelecciones y cambios de partidos políticos, bases de datos sugeridas: INFOGOB
+- *Linea 2:* Cuantificacion y sintetizacion de indices de corrupcion a partir de datos de inversion. bases de datos sugeridas: SEACE, OSCE, MEF
+- *Linea 3:* Cuantificacion y sintetizacion de indices de corrupcion a partir de datos policiales y judiciales. bases de datos sugeridas: Microdatos INEI, Base de datos abierta MINJUS
+- *Linea 4:* Sintetizacion de indicadores sociales, variables de control y lineas de base. bases de datos sugeridos: Microdatos INEI, GEODATA, Censos Anuales.
 
 ## Descripción
 
