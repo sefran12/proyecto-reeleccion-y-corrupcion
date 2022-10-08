@@ -8,7 +8,7 @@ library(ggpmisc)
 options(scipen = 99999, digits = 9)
 
 # Load data
-detalle_inversiones <- read.csv(file = "data/01_raw/DETALLE_INVERSIONES.csv")
+detalle_inversiones <- data.table::fread(file = "data/01_raw/DETALLE_INVERSIONES.csv")
 
 # skim
 skim(detalle_inversiones)
@@ -56,3 +56,17 @@ detalle_inversiones %>%
 
 table(cut(detalle_inversiones$MONTO_VIABLE, c(0, 1150000, 1200000, 1250000, 9900000, 10000000, 10100000, Inf))) %>% as.data.frame()
 
+## DATA CLEANING
+
+detalle_inversiones %>% 
+    mutate(across(DEPARTAMENTO:DISTRITO,
+                  function(x) str_squish(str_remove(x, '\"')))
+           ) %>% 
+    group_by(DEPARTAMENTO, PROVINCIA, DISTRITO, anho = year(FECHA_REGISTRO)) %>% 
+    summarise(
+        n_proyectos = n_distinct(CODIGO_UNICO),
+        porc_expediente_tecnico = mean(EXPEDIENTE_TECNICO == "SÍ", na.rm = TRUE)
+    ) %>% 
+    ggplot(aes(x = anho, y = n_proyectos, group = DISTRITO)) +
+    geom_line(alpha = 0.1) +
+    scale_y_log10()
