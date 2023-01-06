@@ -53,8 +53,7 @@ detalle_inversiones %>%
          color = "Monto") +
     theme_minimal()
 
-
-table(cut(detalle_inversiones$MONTO_VIABLE, c(0, 1150000, 1200000, 1250000, 9900000, 10000000, 10100000, Inf))) %>% as.data.frame()
+table(cut(detalle_inversiones$MONTO_VIABLE/1000000, c(0, 1150000, 1200000, 1250000, 9900000, 10000000, 10100000, Inf)/1000000)) %>% as.data.frame()
 
 ## DATA CLEANING
 

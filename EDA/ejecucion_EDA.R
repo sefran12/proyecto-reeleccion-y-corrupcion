@@ -34,7 +34,7 @@ ejecucion_df %>%
 
 
 ejecucion_df %>% 
-    pivot_longer(-c(Municipalidad, year, EY, UBIGEO)) %>% 
+    pivot_longer(-c(Municipalidad, year, EY, UBIGEO, region, provincia)) %>% 
     ggplot(
         aes(x = year, y = value, group = Municipalidad)
     ) +
@@ -351,6 +351,8 @@ ejecucion_df %>%
     pivot_wider(names_from = year, values_from = Avance) %>% 
     clipr::write_clip()
 
+#### REMOVE MISSING DATA
+
 missings_df <- ejecucion_df %>% 
     mutate(total_years = n_distinct(year)) %>% 
     group_by(Municipalidad) %>% 
@@ -380,10 +382,6 @@ filtered_df <- filtered_df %>%
     )
 
 # 
-
-filtered_df %>% 
-    skimr::skim() %>% 
-    write_clip()
 
 filtered_df %>% 
     select(year, Avance) %>% 
@@ -487,6 +485,7 @@ filtered_df %>%
     coeftest(vcov = sandwich::vcovHC) %>% 
     tidy() %>% 
     write_clip()
+
 
 filtered_df %>% 
     lm(data = .,
@@ -1064,3 +1063,71 @@ filtered_df %>%
     select(Municipalidad, region, year, Avance) %>% 
     pivot_wider(names_from = year, values_from = Avance) %>% 
     clipr::write_clip()
+
+
+## STARGAZER TABLES
+
+library(stargazer)
+
+geoperu_departamentos <- read_excel("data/01_raw/geodir-ubigeo-reniec.xlsx")
+
+geoperu_departamentos <- geoperu_departamentos %>% 
+    mutate(
+        region = str_c(str_sub(Ubigeo, 1, 2), "0000"),
+        provincia = str_c(str_sub(Ubigeo, 1, 4), "00")
+    ) %>% 
+    count(region, Departamento)
+
+missings_df <- ejecucion_df %>% 
+    mutate(total_years = n_distinct(year)) %>% 
+    group_by(Municipalidad) %>% 
+    summarise(
+        available_years = n(),
+        total_years = max(total_years),
+        perc_na = 1 - n()/total_years,
+        filtered_from_sample = perc_na > 0.5) %>% 
+    arrange(desc(perc_na))
+
+###
+
+filtered_df <- ejecucion_df %>% 
+    filter(
+        Municipalidad %in% (missings_df %>% 
+                                filter(!filtered_from_sample) %>% 
+                                pull(Municipalidad))
+    )
+
+
+filtered_df <- filtered_df %>% 
+    rowwise() %>% 
+    mutate(treatment = year >= 2015,
+           time_since_treatment = max(0, year - 2015),
+           region = str_c(str_sub(UBIGEO, 1, 2), "0000"),
+           provincia = str_c(str_sub(UBIGEO, 1, 4), "00")
+    )
+
+model_data <-  filtered_df %>% 
+    left_join(
+        geoperu_departamentos,
+        by = "region"
+    ) %>% rowwise() %>% 
+    mutate(treatment = year >= 2015,
+           time_since_treatment = max(0, year - 2015)) 
+
+model_fe <- model_data %>% 
+    lm(data = .,
+       formula = Avance ~ year + treatment + time_since_treatment +
+           Departamento
+    )
+
+cov1 <- sandwich::vcovHC(model_fe, order.by = filtered_df$year)
+robust_se <- sqrt(diag(cov1))
+
+stargazer(model_fe, type = "text",
+          se = list(robust_se), out = "fixed_region_ITS_model.txt")
+
+stargazer(model_fe, type = "latex",
+          se = list(robust_se), out = "fixed_region_ITS_model.tex")
+
+stargazer(model_fe, type = "html",
+          se = list(robust_se), out = "fixed_region_ITS_model.doc")
