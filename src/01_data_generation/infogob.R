@@ -137,3 +137,4 @@ for (curr_file in file_list) {
 }
 
 write.csv(full_data, file = "data/02_intermediate/autoridades_electas_provinciales_distritales_2002_2018.csv")
+
