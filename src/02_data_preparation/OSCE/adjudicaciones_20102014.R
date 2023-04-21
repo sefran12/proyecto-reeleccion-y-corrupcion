@@ -35,3 +35,4 @@ reporte_20102014$ganador[is.na(reporte_20102014$ganador)] <- "NA"
 reporte_20102014$ruc_miembro_consorcio[is.na(reporte_20102014$ruc_miembro_consorcio)] <- "NA"
 reporte_20102014$nombre_miembro_cosorcio[is.na(reporte_20102014$nombre_miembro_cosorcio)] <- "NA"
 reporte_20102014$estado_item[is.na(reporte_20102014$estado_item)] <- "NA"
+
