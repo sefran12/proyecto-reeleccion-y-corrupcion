@@ -82,3 +82,5 @@ reporte_20152017_muni %>%
     geom_line(alpha = 0.1) +
     scale_y_continuous(trans = "log", labels = scales::comma)
 
+
+
