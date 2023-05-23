@@ -1,5 +1,5 @@
 library(patchwork)
--
+
 # Ununfiltered
 regex_pattern <- "^(GOBIERNO REGIONAL (?:DE )?\\w+|MUNICIPALIDAD (?:DISTRITAL|PROVINCIAL) (?:DE )?[\\w\\s]+?(?= -|- |$))"
 
@@ -288,27 +288,3 @@ plots <- create_summary_plot(postores_overlap, "semestre_publicacion", "perc_rep
 
 # Display the plots
 print(plots)
-
-##
-
-library(dplyr)
-
-# Set the thresholds
-thresholds_goods <- c(CONTRATACION_DIRECTA = 31600, SUBASTA_INVERSA_ELECTRONICA = 31600, 
-                      COMPARACION_DE_PRECIOS = 40000, ADJUDICACION_SIMPLIFICADA = 400000, 
-                      LICITACION_PUBLICA = 400000)
-
-# Function to compute discontinuity index
-# Function to compute discontinuity index
-compute_discontinuity_index <- function(data, thresholds, bandwidth = 500) {
-    data %>%
-        group_by(ANO_EJE, MES_EJE, PLIEGO) %>%
-        mutate(discontinuity = map_lgl(MONTO_EJECUCION, ~ any(abs(. - thresholds) <= bandwidth))) %>%
-        summarise(discontinuity_index = sum(discontinuity) / n(), .groups = "drop")
-}
-
-# Compute the index for GOODS
-df_discontinuity_goods <- compute_discontinuity_index(df_gastos, thresholds_goods)
-
-# View the data
-head(df_discontinuity_goods)

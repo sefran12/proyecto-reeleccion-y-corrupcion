@@ -20,6 +20,7 @@ df_2010_2014 <- df_2010_2014 %>%
     )
 
 
+
 df_2015_2017 <- read_xlsx("data/01_raw/reporte-adjudicaciones/9. Reporte Ofertantes 2015-2017.xlsx") 
 colnames(df_2015_2017)
 
@@ -43,7 +44,7 @@ df_2015_2017 <- df_2015_2017 %>%
               by = c("ENTIDAD"))
 
 # use the patched post 2017 data
-source(file = "src/02_data_preparation/OSCE/solving_postores_post2017.R")
+source(file = "src/02_limpieza_de_datos/OSCE/solving_postores_post2017.R")
 
 df_2018_all <- df_2018_all %>% 
     rename(
