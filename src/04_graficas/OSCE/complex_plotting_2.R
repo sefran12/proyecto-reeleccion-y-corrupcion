@@ -288,3 +288,56 @@ plots <- create_summary_plot(postores_overlap, "semestre_publicacion", "perc_rep
 
 # Display the plots
 print(plots)
+
+# Concentration Index
+combined_df_adjudicaciones <- combined_df_adjudicaciones %>% 
+    mutate(
+        semester = floor_date(fecha_publicacion, unit = "6 month"),
+        monto_total = valor_adjudicado_item * cantidad_adjudicada
+    ) 
+
+total_value <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    arrange(ENTIDAD, semester) %>% 
+    summarise(total_value = sum(valor_adjudicado_item * cantidad_adjudicada)) 
+
+combined_df_adjudicaciones <- combined_df_adjudicaciones %>% 
+    left_join(total_value, by = c("ENTIDAD", "semester"))
+
+concentration_index_at_5 <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    slice_max(monto_total, n = 5) %>% 
+    group_by(ENTIDAD, semester) %>% 
+    summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
+
+
+concentration_index_at_3 <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    slice_max(monto_total, n = 3) %>% 
+    group_by(ENTIDAD, semester) %>% 
+    summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
+
+
+concentration_index_at_10 <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    slice_max(monto_total, n = 10) %>% 
+    group_by(ENTIDAD, semester) %>% 
+    summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
+
+#
+
+# Don't forget to update the coverage function as well
+coberture_at_80_index <- combined_df_adjudicaciones %>%
+    group_by(ENTIDAD, semester) %>%
+    arrange(ENTIDAD, semester, desc(monto_total)) %>% 
+    mutate(cum_monto = cumsum(monto_total)) %>%
+    summarise(num_projects = sum(cum_monto <= total_value * 0.8) + 1) %>%
+    ungroup()
+
+percent_coberture_at_80_index <- combined_df_adjudicaciones %>%
+    group_by(ENTIDAD, semester) %>%
+    arrange(ENTIDAD, semester, desc(monto_total)) %>% 
+    mutate(cum_monto = cumsum(monto_total)) %>%
+    summarise(num_projects = (sum(cum_monto <= total_value * 0.8) + 1) / n(),
+              n = n()) %>%
+    ungroup()

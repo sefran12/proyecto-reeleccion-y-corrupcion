@@ -1,8 +1,10 @@
 library(data.table)
 
 df_gastos <- fread("data/01_raw/EP_Estado_Ejecucion_Gastos_2011_2020.csv")
+df_ingresos <- fread("data/01_raw/EP_Estado_Ejecucion_Ingresos_2011_2020.csv")
 
 colnames(df_gastos)
+colnames(df_ingresos)
 
 library(dplyr)
 
