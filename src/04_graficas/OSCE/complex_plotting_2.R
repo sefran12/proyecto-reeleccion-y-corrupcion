@@ -338,6 +338,19 @@ percent_coberture_at_80_index <- combined_df_adjudicaciones %>%
     group_by(ENTIDAD, semester) %>%
     arrange(ENTIDAD, semester, desc(monto_total)) %>% 
     mutate(cum_monto = cumsum(monto_total)) %>%
-    summarise(num_projects = (sum(cum_monto <= total_value * 0.8) + 1) / n(),
+    summarise(perc_projects = (sum(cum_monto <= total_value * 0.8) + 1) / n(),
               n = n()) %>%
     ungroup()
+
+create_mean_plot(percent_coberture_at_80_index, "semester", "perc_projects",
+                                       "% de proyectos necesarios para cubrir 80% del valor adjudicado total",
+                                       "Año", "Porcentaje")
+
+create_mean_plot(concentration_index_at_3, "semester", "proportion",
+                 "% del valor adjudicado total correspondiente a los 3 proyectos de mayor valor",
+                 "Año", "Porcentaje")
+
+create_mean_plot(concentration_index_at_5, "semester", "proportion",
+"% del valor adjudicado total correspondiente a los 3 proyectos de mayor valor",
+"Año", "Porcentaje")
+
