@@ -235,9 +235,9 @@ combined_df_postores_filtered$semestre_publicacion <- floor_date(combined_df_pos
 
 # Group by entity and 6-month time interval and get the unique postores
 postores_per_entity <- combined_df_postores_filtered %>% 
-    group_by(ruc_entidad, semestre_publicacion) %>%
+    group_by(ENTIDAD, semester = semestre_publicacion) %>%
     summarise(postores = list(unique(ruc_postor))) %>%
-    arrange(ruc_entidad, semestre_publicacion)
+    arrange(ENTIDAD, semester)
 
 # Define a function to get the overlap (repetition) of postores
 get_overlap <- function(current, previous) {
@@ -246,7 +246,7 @@ get_overlap <- function(current, previous) {
 
 # Calculate the repeated postores for each entity and 6-month interval
 postores_overlap <- postores_per_entity %>%
-    group_by(ruc_entidad) %>%
+    group_by(ENTIDAD) %>%
     mutate(
         postores_previous = lag(postores),
         repeated_postores = map2_int(postores, postores_previous, get_overlap),
@@ -258,9 +258,121 @@ postores_overlap <- postores_per_entity %>%
 # Preview the postores_overlap dataframe
 head(postores_overlap)
 
-avg_postor_overlap_plot <- create_mean_plot(postores_overlap, "semestre_publicacion", "perc_repeated_postores",
+avg_postor_overlap_plot <- create_mean_plot(postores_overlap, "semester", "perc_repeated_postores",
                                    "% promedio de postores únicos repetidos del semestre anterior",
                                    "Semestre", "% de repetición")
 avg_postor_overlap_plot + 
     geom_vline(xintercept = as.POSIXct("2015-01-01"), color = "red")
 
+## Concentration indices
+
+# Concentration Index
+combined_df_adjudicaciones <- combined_df_adjudicaciones %>% 
+    mutate(
+        semester = floor_date(fecha_publicacion, unit = "6 month"),
+        monto_total = valor_adjudicado_item * cantidad_adjudicada
+    ) 
+
+total_value <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    arrange(ENTIDAD, semester) %>% 
+    summarise(total_value = sum(valor_adjudicado_item * cantidad_adjudicada)) 
+
+combined_df_adjudicaciones <- combined_df_adjudicaciones %>% 
+    left_join(total_value, by = c("ENTIDAD", "semester"))
+
+concentration_index_at_5 <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    slice_max(monto_total, n = 5) %>% 
+    group_by(ENTIDAD, semester) %>% 
+    summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
+
+
+concentration_index_at_3 <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    slice_max(monto_total, n = 3) %>% 
+    group_by(ENTIDAD, semester) %>% 
+    summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
+
+
+concentration_index_at_10 <- combined_df_adjudicaciones %>% 
+    group_by(ENTIDAD, semester) %>% 
+    slice_max(monto_total, n = 10) %>% 
+    group_by(ENTIDAD, semester) %>% 
+    summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
+
+# Don't forget to update the coverage function as well
+coberture_at_80_index <- combined_df_adjudicaciones %>%
+    group_by(ENTIDAD, semester) %>%
+    arrange(ENTIDAD, semester, desc(monto_total)) %>% 
+    mutate(cum_monto = cumsum(monto_total)) %>%
+    summarise(num_projects = sum(cum_monto <= total_value * 0.8) + 1) %>%
+    ungroup()
+
+percent_coberture_at_80_index <- combined_df_adjudicaciones %>%
+    group_by(ENTIDAD, semester) %>%
+    arrange(ENTIDAD, semester, desc(monto_total)) %>% 
+    mutate(cum_monto = cumsum(monto_total)) %>%
+    summarise(perc_projects = (sum(cum_monto <= total_value * 0.8) + 1) / n(),
+              n = n()) %>%
+    ungroup()
+
+create_mean_plot(percent_coberture_at_80_index, "semester", "perc_projects",
+                 "% de proyectos necesarios para cubrir 80% del valor adjudicado total",
+                 "Año", "Porcentaje")
+
+create_mean_plot(concentration_index_at_3, "semester", "proportion",
+                 "% del valor adjudicado total correspondiente a los 3 proyectos de mayor valor",
+                 "Año", "Porcentaje")
+
+create_mean_plot(concentration_index_at_5, "semester", "proportion",
+                 "% del valor adjudicado total correspondiente a los 3 proyectos de mayor valor",
+                 "Año", "Porcentaje")
+
+# Centralise the new metrics and save
+
+## MONTHLY
+
+# Join all indices in one dataframe
+indices_df <- numero_ganadores %>%
+    full_join(valor_proyectos_adjudicados, by = c("mesanho_publicacion", "gobierno")) %>%
+    full_join(tiempo_promedio_publicacion_buenapro, by = c("mesanho_publicacion", "gobierno")) %>%
+    full_join(single_bidder_percentage, by = c("mesanho_publicacion", "gobierno")) %>%
+    full_join(average_bidder_count, by = c("mesanho_publicacion", "gobierno")) %>%
+    full_join(single_bidder_metrics, by = c("mesanho_publicacion", "gobierno"))
+
+# save as parquet
+write_parquet(indices_df, "data/02_intermediate/OSCE/monthly_indices.parquet")
+
+## SEMESTRAL
+
+# Rename 'proportion' column for each concentration index
+concentration_index_at_5 <- concentration_index_at_5 %>% 
+    rename(concentration_at_5 = proportion)
+
+concentration_index_at_3 <- concentration_index_at_3 %>% 
+    rename(concentration_at_3 = proportion)
+
+concentration_index_at_10 <- concentration_index_at_10 %>% 
+    rename(concentration_at_10 = proportion)
+
+# Join concentration indices with semestral_df
+semestral_df <- postores_overlap %>% 
+    left_join(concentration_index_at_3, by = c("ENTIDAD", "semester")) %>%
+    left_join(concentration_index_at_5, by = c("ENTIDAD", "semester")) %>%
+    left_join(concentration_index_at_10, by = c("ENTIDAD", "semester"))
+
+# Rename columns in coverage index dataframes
+coberture_at_80_index <- coberture_at_80_index %>% 
+    rename(coberture_at_80 = num_projects)
+
+percent_coberture_at_80_index <- percent_coberture_at_80_index %>% 
+    rename(perc_coberture_at_80 = perc_projects)
+
+# Join coverage indices with semestral_df
+semestral_df <- semestral_df %>%
+    left_join(coberture_at_80_index, by = c("ENTIDAD", "semester")) %>%
+    left_join(percent_coberture_at_80_index, by = c("ENTIDAD", "semester"))
+
+# save semestral data
+write_parquet(semestral_df, "data/02_intermediate/OSCE/semestral_indices.parquet")

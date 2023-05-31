@@ -52,3 +52,6 @@ controles_infogob <- controles_infogob %>%
     group_by(region, provincia, distrito, tipo_municipalidad) %>% # group by entity
     complete(year = 2002:2022, fill = list(fragmentation_index = NA, competitividad_index = NA)) %>% # create missing years
     fill(fragmentation_index, competitividad_index, .direction = "down") # fill forward by each entity
+
+# Write data
+write_parquet(controles_infogob, "data/02_intermediate/controles_infogob.parquet")
