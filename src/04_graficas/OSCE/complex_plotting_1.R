@@ -326,7 +326,7 @@ create_mean_plot(concentration_index_at_3, "semester", "proportion",
                  "Año", "Porcentaje")
 
 create_mean_plot(concentration_index_at_5, "semester", "proportion",
-                 "% del valor adjudicado total correspondiente a los 3 proyectos de mayor valor",
+                 "% del valor adjudicado total correspondiente a los 5 proyectos de mayor valor",
                  "Año", "Porcentaje")
 
 # Centralise the new metrics and save

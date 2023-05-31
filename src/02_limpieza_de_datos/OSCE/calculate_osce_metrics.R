@@ -1,6 +1,7 @@
 library(lubridate)
 library(tidyverse)
 library(skimr)
+library(arrow)
 
 ### ADJUDICACIONES
 
@@ -19,20 +20,22 @@ df_adjudicaciones <- combined_df_adjudicaciones %>%
 
 combined_df_postores <- combined_df_postores %>% 
     mutate(
+        gobierno = str_extract(ENTIDAD, regex_pattern),
+        gobierno = str_remove(gobierno, "SEDE CENTRAL|Sede Central|sede central"),
         mesanho_publicacion = floor_date(fecha_publicacion, "month")
     )
 
 ## NUMERO DE GANADORES DE PROYECTOS EN MUNICIPALIDADES:
 
 numero_ganadores <- df_adjudicaciones %>% 
-    group_by(mesanho_publicacion, ENTIDAD) %>% 
+    group_by(mesanho_publicacion, gobierno) %>% 
     summarise(
         n_ganadores = n_unique(ruc_ganador)
     )
 # Valor medio de los proyectos adjudicados (TODOS)
 
 valor_proyectos_adjudicados <- df_adjudicaciones %>%
-    group_by(mesanho_publicacion, ENTIDAD) %>%
+    group_by(mesanho_publicacion, gobierno) %>%
     summarise(
         valor_adjudicado_mean = mean(valor_adjudicado_item, na.rm = TRUE)
     )
@@ -40,7 +43,7 @@ valor_proyectos_adjudicados <- df_adjudicaciones %>%
 # Valor promedio de los proyectos adjudicados (valor del item menor a S/. 1,000,000)
 valor_proyectos_adjudicados <- df_adjudicaciones %>%
     filter(valor_adjudicado_item < 1000000) %>% 
-    group_by(mesanho_publicacion, ENTIDAD) %>%
+    group_by(mesanho_publicacion, gobierno) %>%
     summarise(
         valor_adjudicado_mean = mean(valor_adjudicado_item, na.rm = TRUE)
     )
@@ -48,14 +51,14 @@ valor_proyectos_adjudicados <- df_adjudicaciones %>%
 # Tiempo promedio entre fecha de publicacion y fecha de buena pro
 tiempo_promedio_publicacion_buenapro <- df_adjudicaciones %>%
     mutate(time_diff_days = as.numeric(difftime(fecha_buenapro, fecha_publicacion, units = "days"))) %>%
-    group_by(mesanho_publicacion, ENTIDAD) %>%
+    group_by(mesanho_publicacion, gobierno) %>%
     summarise(
         tiempo_promedio = mean(time_diff_days, na.rm = TRUE)
     )
 
 # Calculate the number of bidders per project
 bidder_count <- combined_df_postores %>%
-    group_by(ruc_entidad, nombre_proceso, mesanho_publicacion, ENTIDAD) %>%
+    group_by(ruc_entidad, nombre_proceso, mesanho_publicacion, gobierno) %>%
     summarise(n_bidders = n()) 
 
 # Create a column to indicate if a project has only one bidder
@@ -64,7 +67,7 @@ bidder_count <- bidder_count %>%
 
 # Calculate the percentage of projects with a single bidder
 single_bidder_percentage <- bidder_count %>%
-    group_by(mesanho_publicacion, ENTIDAD) %>%
+    group_by(mesanho_publicacion, gobierno) %>%
     summarise(
         total_projects = n(),
         single_bidder_projects = sum(single_bidder),
@@ -73,7 +76,7 @@ single_bidder_percentage <- bidder_count %>%
 
 # Calculate the average number of bidders per project
 average_bidder_count <- combined_df_postores %>%
-    group_by(mesanho_publicacion, ENTIDAD) %>%
+    group_by(mesanho_publicacion, gobierno) %>%
     summarise(
         total_bidders = n(),
         total_projects = n_distinct(nombre_proceso),
@@ -83,15 +86,15 @@ average_bidder_count <- combined_df_postores %>%
 
 # Identify single bidder projects
 single_bidder_projects <- combined_df_postores %>%
-    group_by(ruc_entidad, nombre_proceso) %>%
+    group_by(gobierno, nombre_proceso) %>%
     filter(n() == 1) %>%
     ungroup() %>%
-    select(ruc_entidad, nombre_proceso)
+    select(gobierno, nombre_proceso)
 
 # Join with the adjudicaciones dataset
 single_bidder_adjudicaciones <- df_adjudicaciones %>%
     inner_join(single_bidder_projects,
-               by = c("ruc_entidad", "nombre_proceso"))
+               by = c("gobierno", "nombre_proceso"))
 
 # Calculate the difference and ratio
 single_bidder_metrics <- single_bidder_adjudicaciones %>%
@@ -100,7 +103,7 @@ single_bidder_metrics <- single_bidder_adjudicaciones %>%
     filter(ratio_valor < 2, # there is one anomalous month. Only this month gets filtered by this
            diff_valor < 100000 # there is one anomalous month. Only this month gets filtered by this
     ) %>% 
-    group_by(mesanho_publicacion = floor_date(fecha_publicacion, "month"), ENTIDAD) %>%
+    group_by(mesanho_publicacion = floor_date(fecha_publicacion, "month"), gobierno) %>%
     summarise(
         avg_diff = mean(diff_valor, na.rm = TRUE),
         avg_ratio = mean(ratio_valor, na.rm = TRUE)
@@ -113,9 +116,9 @@ combined_df_postores$semestre_publicacion <- floor_date(combined_df_postores$fec
 
 # Group by entity and 6-month time interval and get the unique postores
 postores_per_entity <- combined_df_postores %>% 
-    group_by(ENTIDAD, semester = semestre_publicacion) %>%
+    group_by(gobierno, semester = semestre_publicacion) %>%
     summarise(postores = list(unique(ruc_postor))) %>%
-    arrange(ENTIDAD, semester)
+    arrange(gobierno, semester)
 
 # Define a function to get the overlap (repetition) of postores
 get_overlap <- function(current, previous) {
@@ -124,7 +127,7 @@ get_overlap <- function(current, previous) {
 
 # Calculate the repeated postores for each entity and 6-month interval
 postores_overlap <- postores_per_entity %>%
-    group_by(ENTIDAD) %>%
+    group_by(gobierno) %>%
     mutate(
         postores_previous = lag(postores),
         repeated_postores = map2_int(postores, postores_previous, get_overlap),
@@ -136,51 +139,49 @@ postores_overlap <- postores_per_entity %>%
 ## Concentration indices
 
 # Concentration Index
-combined_df_adjudicaciones <- combined_df_adjudicaciones %>% 
+combined_df_adjudicaciones <- df_adjudicaciones %>% 
     mutate(
         semester = floor_date(fecha_publicacion, unit = "6 month"),
         monto_total = valor_adjudicado_item * cantidad_adjudicada
     ) 
 
 total_value <- combined_df_adjudicaciones %>% 
-    group_by(ENTIDAD, semester) %>% 
-    arrange(ENTIDAD, semester) %>% 
-    summarise(total_value = sum(valor_adjudicado_item * cantidad_adjudicada)) 
+    group_by(gobierno, semester) %>% 
+    arrange(gobierno, semester) %>% 
+    summarise(total_value = sum(monto_total, na.rm = TRUE)) 
 
 combined_df_adjudicaciones <- combined_df_adjudicaciones %>% 
-    left_join(total_value, by = c("ENTIDAD", "semester"))
+    left_join(total_value, by = c("gobierno", "semester"))
 
 concentration_index_at_5 <- combined_df_adjudicaciones %>% 
-    group_by(ENTIDAD, semester) %>% 
+    group_by(gobierno, semester) %>% 
     slice_max(monto_total, n = 5) %>% 
-    group_by(ENTIDAD, semester) %>% 
+    group_by(gobierno, semester) %>% 
     summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
-
 
 concentration_index_at_3 <- combined_df_adjudicaciones %>% 
-    group_by(ENTIDAD, semester) %>% 
+    group_by(gobierno, semester) %>% 
     slice_max(monto_total, n = 3) %>% 
-    group_by(ENTIDAD, semester) %>% 
+    group_by(gobierno, semester) %>% 
     summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
 
-
 concentration_index_at_10 <- combined_df_adjudicaciones %>% 
-    group_by(ENTIDAD, semester) %>% 
+    group_by(gobierno, semester) %>% 
     slice_max(monto_total, n = 10) %>% 
-    group_by(ENTIDAD, semester) %>% 
+    group_by(gobierno, semester) %>% 
     summarise(proportion = sum(monto_total, na.rm = TRUE)/first(total_value))
 
 # Don't forget to update the coverage function as well
 coberture_at_80_index <- combined_df_adjudicaciones %>%
-    group_by(ENTIDAD, semester) %>%
-    arrange(ENTIDAD, semester, desc(monto_total)) %>% 
+    group_by(gobierno, semester) %>%
+    arrange(gobierno, semester, desc(monto_total)) %>% 
     mutate(cum_monto = cumsum(monto_total)) %>%
     summarise(num_projects = sum(cum_monto <= total_value * 0.8) + 1) %>%
     ungroup()
 
 percent_coberture_at_80_index <- combined_df_adjudicaciones %>%
-    group_by(ENTIDAD, semester) %>%
-    arrange(ENTIDAD, semester, desc(monto_total)) %>% 
+    group_by(gobierno, semester) %>%
+    arrange(gobierno, semester, desc(monto_total)) %>% 
     mutate(cum_monto = cumsum(monto_total)) %>%
     summarise(perc_projects = (sum(cum_monto <= total_value * 0.8) + 1) / n(),
               n = n()) %>%
@@ -215,9 +216,9 @@ concentration_index_at_10 <- concentration_index_at_10 %>%
 
 # Join concentration indices with semestral_df
 semestral_df <- postores_overlap %>% 
-    left_join(concentration_index_at_3, by = c("ENTIDAD", "semester")) %>%
-    left_join(concentration_index_at_5, by = c("ENTIDAD", "semester")) %>%
-    left_join(concentration_index_at_10, by = c("ENTIDAD", "semester"))
+    left_join(concentration_index_at_3, by = c("gobierno", "semester")) %>%
+    left_join(concentration_index_at_5, by = c("gobierno", "semester")) %>%
+    left_join(concentration_index_at_10, by = c("gobierno", "semester"))
 
 # Rename columns in coverage index dataframes
 coberture_at_80_index <- coberture_at_80_index %>% 
@@ -228,8 +229,8 @@ percent_coberture_at_80_index <- percent_coberture_at_80_index %>%
 
 # Join coverage indices with semestral_df
 semestral_df <- semestral_df %>%
-    left_join(coberture_at_80_index, by = c("ENTIDAD", "semester")) %>%
-    left_join(percent_coberture_at_80_index, by = c("ENTIDAD", "semester"))
+    left_join(coberture_at_80_index, by = c("gobierno", "semester")) %>%
+    left_join(percent_coberture_at_80_index, by = c("gobierno", "semester"))
 
 # save semestral data
 write_parquet(semestral_df, "data/02_intermediate/OSCE/semestral_indices.parquet")
