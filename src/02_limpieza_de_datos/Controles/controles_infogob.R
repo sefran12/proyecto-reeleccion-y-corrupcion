@@ -1,11 +1,14 @@
 # Cargamos las bibliotecas necesarias
 library(readxl)
-library(dplyr)
 library(stringr)
 library(janitor)
+library(tidyverse)
+library(arrow)
 
 # Creamos un data frame vacío para almacenar los datos
 controles_infogob <- data.frame()
+
+file_list <- dir(path = "data/01_raw/Base_de_datos_INFOgob/", full.names = TRUE, recursive = TRUE)
 
 # Iteramos sobre cada archivo en la lista
 for (curr_file in file_list) {
@@ -45,7 +48,6 @@ for (curr_file in file_list) {
 
 # Vuelve panel 2002:2022
 
-library(tidyverse)
 
 controles_infogob <- controles_infogob %>%
     mutate(year = as.integer(year)) %>% # convert year to integer
@@ -55,4 +57,26 @@ controles_infogob <- controles_infogob %>%
 
 # Write data
 write_parquet(controles_infogob, "data/02_intermediate/controles_infogob.parquet")
+
+
+# Make monthly and semestral versions
+monthly_dates <- seq(as.Date("2002-01-01"), as.Date("2022-12-01"), by = "month")
+semestral_dates <- seq(as.Date("2002-01-01"), as.Date("2022-07-01"), by = "6 months")
+
+# Function to generate panel data
+create_panel_infogob <- function(dates){
+    panel <- controles_infogob %>% 
+        tidyr::uncount(length(dates)/length(unique(controles_infogob$year)), .id = "date_id") %>% 
+        mutate(date = dates[date_id]) %>% 
+        select(-date_id)
+    return(panel)
+}
+
+# Create monthly and semestral panel data
+monthly_infogob <- create_panel_infogob(monthly_dates)
+semestral_infogob <- create_panel_infogob(semestral_dates)
+
+# Write data
+write_parquet(monthly_infogob, "data/02_intermediate/controles_infogob_mensual.parquet")
+write_parquet(semestral_infogob, "data/02_intermediate/controles_infogob_semestral.parquet")
 

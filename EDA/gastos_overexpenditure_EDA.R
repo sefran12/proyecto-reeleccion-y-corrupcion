@@ -92,3 +92,26 @@ p3 <- ggplot(corruption_indices, aes(x = date)) +
 # Combine the plots
 p1 / p2 / p3
 
+
+# Plot 1: Level trends
+p1 <- ggplot(corruption_indices, aes(x = date)) +
+    geom_line(aes(y = large_overexpenditure_index_local, colour = "Local")) +
+    geom_line(aes(y = large_overexpenditure_index_non_local, colour = "Non-local")) +
+    labs(x = "Date", y = "Overexpenditure Index", colour = "Government Type") +
+    theme_minimal()
+
+# Plot 2: Difference between the two
+p2 <- ggplot(corruption_indices, aes(x = date)) +
+    geom_line(aes(y = large_overexpenditure_diff, colour = "Difference")) +
+    labs(x = "Date", y = "Difference in Overexpenditure Index", colour = "Metric") +
+    theme_minimal()
+
+# Plot 3: Cumulative difference
+p3 <- ggplot(corruption_indices, aes(x = date)) +
+    geom_line(aes(y = large_overexpenditure_cum_diff, colour = "Cumulative Difference")) +
+    labs(x = "Date", y = "Cumulative Difference in Overexpenditure Index", colour = "Metric") +
+    theme_minimal()
+
+# Combine the plots
+p1 / p2 / p3
+

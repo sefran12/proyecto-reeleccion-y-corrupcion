@@ -4,6 +4,7 @@ library(tidyverse)
 library(readxl)
 library(stringr)
 library(janitor)
+library(arrow)
 
 # OCI data
 OCI_df <- read_excel("data/01_raw/ESTADO DE ENTIDADES CON OCI INCORPORADOS AL_15FEB2023_rev (1).xlsx", sheet = 2)
@@ -50,3 +51,7 @@ create_panel <- function(dates){
 # Create monthly and semestral panel data
 monthly_panel <- create_panel(monthly_dates)
 semestral_panel <- create_panel(semestral_dates)
+
+# write data
+write_parquet(monthly_panel, "data/02_intermediate/controles_OCI_mensual.parquet")
+write_parquet(semestral_panel, "data/02_intermediate/controles_OCI_semestral.parquet")
