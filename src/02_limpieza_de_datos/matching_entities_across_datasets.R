@@ -63,3 +63,6 @@ provincial_matching <- provincial_matching %>%
     group_by(ENTIDAD) %>% 
     slice_min(string_distance, n = 1, with_ties = FALSE)
 
+
+osce_infogob_matching <- distrital_matching %>% 
+    bind_rows(provincial_matching)

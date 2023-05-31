@@ -55,3 +55,4 @@ controles_infogob <- controles_infogob %>%
 
 # Write data
 write_parquet(controles_infogob, "data/02_intermediate/controles_infogob.parquet")
+
