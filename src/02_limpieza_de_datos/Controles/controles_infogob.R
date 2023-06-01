@@ -36,47 +36,53 @@ for (curr_file in file_list) {
         mutate(percent_votos_sq = percent_votos^2) %>%
         mutate(winning_percent_votos_sq = max(percent_votos, na.rm = TRUE)^2) %>%
         summarise(fragmentation_index = 1 - sum(percent_votos_sq, na.rm = TRUE),
-                  competitividad_index = - 1 * (1 + (1 / sum(percent_votos_sq, na.rm = TRUE)) * (
-                      sum(percent_votos_sq - winning_percent_votos_sq, na.rm = TRUE) /
-                          sum(winning_percent_votos_sq, na.rm = TRUE))
+                  competitividad_index = 1 + (
+                      (1 / sum(percent_votos_sq, na.rm = TRUE)) * (
+                          (sum(percent_votos_sq, na.rm = TRUE) - winning_percent_votos_sq) /
+                              winning_percent_votos_sq
+                      )
                   ),
                   .groups = "drop")
+    
     
     # Unimos los datos al data frame completo
     controles_infogob <- bind_rows(controles_infogob, curr_data)
 }
 
 # Vuelve panel 2002:2022
+library(lubridate)
 
-
+# Add a date column to the original dataset using the 1st day of each year
 controles_infogob <- controles_infogob %>%
-    mutate(year = as.integer(year)) %>% # convert year to integer
-    group_by(region, provincia, distrito, tipo_municipalidad) %>% # group by entity
-    complete(year = 2002:2022, fill = list(fragmentation_index = NA, competitividad_index = NA)) %>% # create missing years
-    fill(fragmentation_index, competitividad_index, .direction = "down") # fill forward by each entity
+    mutate(date = as.Date(paste0(year, "-01-01")))
 
-# Write data
-write_parquet(controles_infogob, "data/02_intermediate/controles_infogob.parquet")
-
-
-# Make monthly and semestral versions
-monthly_dates <- seq(as.Date("2002-01-01"), as.Date("2022-12-01"), by = "month")
-semestral_dates <- seq(as.Date("2002-01-01"), as.Date("2022-07-01"), by = "6 months")
-
-# Function to generate panel data
+# Function to create expanded datasets
 create_panel_infogob <- function(dates){
-    panel <- controles_infogob %>% 
-        tidyr::uncount(length(dates)/length(unique(controles_infogob$year)), .id = "date_id") %>% 
-        mutate(date = dates[date_id]) %>% 
-        select(-date_id)
+    panel <- controles_infogob %>%
+        tidyr::expand(nesting(region, provincia, distrito, tipo_municipalidad), date = dates) %>%
+        left_join(controles_infogob, by = c("region", "provincia", "distrito", "tipo_municipalidad", "date")) %>%
+        fill(fragmentation_index, competitividad_index, .direction = "down")
     return(panel)
 }
 
-# Create monthly and semestral panel data
+# Generate list of all first dates of the months and semesters within the range
+monthly_dates <- seq(as.Date("2002-01-01"), as.Date("2022-12-01"), by = "month")
+semestral_dates <- seq(as.Date("2002-01-01"), as.Date("2022-07-01"), by = "6 months")
+
+# Create expanded datasets
 monthly_infogob <- create_panel_infogob(monthly_dates)
 semestral_infogob <- create_panel_infogob(semestral_dates)
+
+# 'fill' yearly data to each month within the same year
+monthly_infogob <- monthly_infogob %>%
+    group_by(region, provincia, distrito, tipo_municipalidad, year(date)) %>%
+    fill(fragmentation_index, competitividad_index, .direction = "downup")
+
+# 'fill' yearly data to each semester within the same year
+semestral_infogob <- semestral_infogob %>%
+    group_by(region, provincia, distrito, tipo_municipalidad, year(date), semester(date)) %>%
+    fill(fragmentation_index, competitividad_index, .direction = "downup")
 
 # Write data
 write_parquet(monthly_infogob, "data/02_intermediate/controles_infogob_mensual.parquet")
 write_parquet(semestral_infogob, "data/02_intermediate/controles_infogob_semestral.parquet")
-

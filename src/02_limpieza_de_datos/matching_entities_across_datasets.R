@@ -1,8 +1,17 @@
 ### MATCHING ENTITIES ACROSS DIVERSE SOURCES
+library(arrow)
+library(tidyverse)
+library(janitor)
+library(readxl)
 
 ## OSCE - INFOGOB
+
+# infogob
 controles_infogob <- read_parquet("data/02_intermediate/controles_infogob.parquet")
 combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/merged_adjudicaciones_data.parquet")
+
+# osce metrics
+monthly_osce <- read_parquet("data/02_intermediate/OSCE/monthly_indices.parquet")
 
 # Link UBIGEO to municipalidad, create full government name
 
@@ -27,40 +36,40 @@ provinciales_infogob <- controles_infogob %>%
     select(full_name) %>% 
     unique()
 
-distritales_adjudicaciones <- combined_df_adjudicaciones %>% 
-    filter(str_detect(ENTIDAD, "^MUNICIPALIDAD DISTRITAL")) %>%
-    select(ENTIDAD) %>% 
+distritales_adjudicaciones <- monthly_osce %>% 
+    ungroup() %>% 
+    filter(str_detect(gobierno, "^MUNICIPALIDAD DISTRITAL")) %>%
+    select(gobierno) %>% 
     unique()
 
-provinciales_adjudicaciones <- combined_df_adjudicaciones %>% 
-    filter(str_detect(ENTIDAD, "^MUNICIPALIDAD PROVINCIAL")) %>%
-    select(ENTIDAD) %>% 
+provinciales_adjudicaciones <- monthly_osce %>% 
+    ungroup() %>% 
+    filter(str_detect(gobierno, "^MUNICIPALIDAD PROVINCIAL")) %>%
+    select(gobierno) %>% 
     unique()
-
 
 distrital_matching <- stringdist_full_join(
     distritales_adjudicaciones, 
     distritales_infogob, 
-    by = c("ENTIDAD" = "full_name"), 
+    by = c("gobierno" = "full_name"), 
     max_dist = 15, method = "lcs",
     distance_col = "string_distance"
 )
 
 distrital_matching <- distrital_matching %>% 
-    group_by(ENTIDAD) %>% 
+    group_by(gobierno) %>% 
     slice_min(string_distance, n = 1, with_ties = FALSE)
-
 
 provincial_matching <- stringdist_left_join(
     provinciales_adjudicaciones, 
     provinciales_infogob, 
-    by = c("ENTIDAD" = "full_name"), 
+    by = c("gobierno" = "full_name"), 
     max_dist = 15, method = "lcs",
     distance_col = "string_distance"
 )
 
 provincial_matching <- provincial_matching %>% 
-    group_by(ENTIDAD) %>% 
+    group_by(gobierno) %>% 
     slice_min(string_distance, n = 1, with_ties = FALSE)
 
 osce_infogob_matching <- distrital_matching %>% 
@@ -69,7 +78,7 @@ osce_infogob_matching <- distrital_matching %>%
 # write
 write_parquet(osce_infogob_matching, "data/02_intermediate/osce_infogob_entity_name_matching.parquet")
 
-### LINK ENTIDADES CON OCI with OSCE
+### LINK gobiernoES CON OCI with OSCE
 
 OCI_df <- read_excel("data/01_raw/ESTADO DE ENTIDADES CON OCI INCORPORADOS AL_15FEB2023_rev (1).xlsx", sheet = 2)
 OCI_df <- clean_names(OCI_df)
@@ -78,9 +87,14 @@ OCI_df <- clean_names(OCI_df)
 OCI_df$ruc_entidad <- as.character(OCI_df$ruc_entidad)
 combined_df_adjudicaciones$ruc_entidad <- as.character(combined_df_adjudicaciones$ruc_entidad)
 
+regex_pattern <- "^(GOBIERNO REGIONAL (?:DE )?\\w+|MUNICIPALIDAD (?:DISTRITAL|PROVINCIAL) (?:DE )?[\\w\\s]+?(?= -|- |$))"
+
 # Remove duplicates
 OCI_df <- OCI_df %>% distinct(ruc_entidad, nombre_entidad)
-combined_df_adjudicaciones <- combined_df_adjudicaciones %>% distinct(ruc_entidad, ENTIDAD)
+combined_df_adjudicaciones <- combined_df_adjudicaciones %>%
+    mutate(gobierno = str_extract(ENTIDAD, regex_pattern),
+           gobierno = str_remove(gobierno, "SEDE CENTRAL|Sede Central|sede central")) %>% 
+    distinct(ruc_entidad, gobierno)
 
 # Exact match using RUC
 exact_match <- OCI_df %>%
@@ -100,20 +114,20 @@ OCI_remaining_unique <- OCI_remaining %>%
     distinct()
 
 adjudicaciones_remaining_unique <- adjudicaciones_remaining %>% 
-    select(ENTIDAD) %>% 
+    select(gobierno) %>% 
     distinct()
 
 fuzzy_match <- stringdist_left_join(
     adjudicaciones_remaining_unique, 
     OCI_remaining_unique, 
-    by = c("ENTIDAD" = "nombre_entidad"), 
+    by = c("gobierno" = "nombre_entidad"), 
     max_dist = 5, 
     method = "lcs",
     distance_col = "string_distance"
 )
 
 fuzzy_match <- fuzzy_match %>% 
-    group_by(ENTIDAD) %>% 
+    group_by(gobierno) %>% 
     slice_min(string_distance, n = 1, with_ties = FALSE)
 
 # Combine exact and fuzzy matches
