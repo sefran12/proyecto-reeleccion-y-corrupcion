@@ -201,6 +201,7 @@ indices_df <- numero_ganadores %>%
 
 # save as parquet
 write_parquet(indices_df, "data/02_intermediate/OSCE/monthly_indices.parquet")
+write.csv(indices_df, "data/02_intermediate/OSCE/monthly_indices.csv")
 
 ## SEMESTRAL
 
@@ -234,3 +235,4 @@ semestral_df <- semestral_df %>%
 
 # save semestral data
 write_parquet(semestral_df, "data/02_intermediate/OSCE/semestral_indices.parquet")
+write_csv(semestral_df, "data/02_intermediate/OSCE/semestral_indices.csv")
