@@ -134,6 +134,8 @@ fuzzy_match <- fuzzy_match %>%
 all_matches <- exact_match %>%
     bind_rows(fuzzy_match)
 
+# There are many entities in a GOBIERNO. Let's take the existence of at least 1 as 1.
+
 # save
 write_parquet(all_matches, "data/02_intermediate/osce_oci_entity_name_matching.parquet")
 
@@ -151,6 +153,32 @@ monthly_panel <- monthly_panel %>%
 semestral_panel <- semestral_panel %>%
     full_join(all_matches, by = "nombre_entidad") %>%
     replace_na(list(OCI_exists = 0, OCI_incorporated = 0))
+
+# Summarise monthly panel: Many GOBIERNOS have various "entities", each one with their OCI.
+monthly_panel <- monthly_panel %>%
+    group_by(gobierno, date) %>%
+    summarise(
+        OCI_exists_any = max(OCI_exists, na.rm = TRUE),
+        OCI_exists_proportion = mean(OCI_exists, na.rm = TRUE),
+        OCI_exists_count = sum(OCI_exists, na.rm = TRUE),
+        OCI_incorporated_any = max(OCI_incorporated, na.rm = TRUE),
+        OCI_incorporated_proportion = mean(OCI_incorporated, na.rm = TRUE),
+        OCI_incorporated_count = sum(OCI_incorporated, na.rm = TRUE),
+        .groups = "drop"
+    )
+
+# Summarise semestral panel
+semestral_panel <- semestral_panel %>%
+    group_by(gobierno, date) %>%
+    summarise(
+        OCI_exists_any = max(OCI_exists, na.rm = TRUE),
+        OCI_exists_proportion = mean(OCI_exists, na.rm = TRUE),
+        OCI_exists_count = sum(OCI_exists, na.rm = TRUE),
+        OCI_incorporated_any = max(OCI_incorporated, na.rm = TRUE),
+        OCI_incorporated_proportion = mean(OCI_incorporated, na.rm = TRUE),
+        OCI_incorporated_count = sum(OCI_incorporated, na.rm = TRUE),
+        .groups = "drop"
+    )
 
 # Rewrite and update
 write_parquet(monthly_panel, "data/02_intermediate/controles_OCI_mensual.parquet")

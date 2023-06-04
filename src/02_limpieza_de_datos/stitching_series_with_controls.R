@@ -1,4 +1,6 @@
 ## JOINING SERIES AND CONTROLS
+library(tidyverse)
+library(arrow)
 
 monthly_indices_df <- read_parquet("data/02_intermediate/OSCE/monthly_indices.parquet")
 controles_oci_monthly <- read_parquet("data/02_intermediate/controles_OCI_mensual.parquet")
@@ -11,59 +13,29 @@ controles_infogob_semestral <- read_parquet("data/02_intermediate/controles_info
 osce_infogob_matching <- read_parquet("data/02_intermediate/osce_infogob_entity_name_matching.parquet")
 osce_oci_matching <- read_parquet("data/02_intermediate/osce_oci_entity_name_matching.parquet")
 
-
-colnames(monthly_indices_df)
-colnames(controles_oci_monthly)
-colnames(controles_infogob_monthly)
-colnames(osce_infogob_matching)
-colnames(osce_oci_matching)
+## Monthly
 
 osce_infogob2 <- monthly_indices_df %>% 
     mutate(mesanho_publicacion = as.Date(mesanho_publicacion)) %>% 
     left_join(osce_infogob_matching, by = c("gobierno")) %>% 
     left_join(controles_infogob_monthly %>% rename(mesanho_publicacion = date), by = c("region", "provincia", "distrito", "mesanho_publicacion")) %>% 
-    left_join(osce_oci_matching %>% select(gobierno, nombre_entidad) %>% unique(), by = c("gobierno")) %>% 
     left_join(controles_oci_monthly %>% rename(mesanho_publicacion = date),
-              by = c("gobierno", "nombre_entidad", "mesanho_publicacion"))
+              by = c("gobierno", "mesanho_publicacion"))
 
-osce_infogob %>% 
-    mutate(
-        cutoff = mesanho_publicacion > "2014-01-01",
-        fragmentation_category = case_when(fragmentation_index < 0 ~ "<0",
-                                           fragmentation_index < 0.25 ~ "<0.25",
-                                           fragmentation_index < 0.5 ~ "<0.5",
-                                           fragmentation_index < 0.75 ~ "<0.75",
-                                           fragmentation_index > 0.75 ~ ">0.75",
-                                           is.na(fragmentation_index) ~ "No disponible"),
-        competitividad_category = case_when(competitividad_index < 1 ~ "<1",
-                                         competitividad_index < 2 ~ "<2",
-                                         competitividad_index < 3 ~ "<3",
-                                         competitividad_index < 4 ~ "<4",
-                                         competitividad_index > 5 ~ ">5",
-                                           is.na(competitividad_index) ~ "No disponible")
-    ) %>% 
-    lm(data = .,
-       formula = tiempo_promedio ~ cutoff + fragmentation_category + competitividad_category) %>% 
-    summary()
+# Fill missing OCI controls with zero (since they are not in the database of OCIs, they don't have one)
+osce_infogob2 <- osce_infogob2 %>%
+    replace_na(list(
+        OCI_exists_any = 0, 
+        OCI_exists_proportion = 0,
+        OCI_exists_count = 0,
+        OCI_incorporated_any = 0,
+        OCI_incorporated_proportion = 0,
+        OCI_incorporated_count = 0
+    )) %>% 
+    ungroup()
 
-library(lme4)
+# save
+write_parquet(osce_infogob2, "data/03_model/osce_infogob_oci_monthly.parquet") 
+write.csv(osce_infogob2, "data/03_model/osce_infogob_oci_monthly.csv")
 
-osce_infogob %>% 
-    mutate(
-        cutoff = mesanho_publicacion > "2014-01-01",
-        fragmentation_category = case_when(fragmentation_index < 0 ~ "<0",
-                                           fragmentation_index < 0.25 ~ "<0.25",
-                                           fragmentation_index < 0.5 ~ "<0.5",
-                                           fragmentation_index < 0.75 ~ "<0.75",
-                                           fragmentation_index > 0.75 ~ ">0.75",
-                                           is.na(fragmentation_index) ~ "No disponible"),
-        competitividad_category = case_when(competitividad_index < 1 ~ "<1",
-                                            competitividad_index < 2 ~ "<2",
-                                            competitividad_index < 3 ~ "<3",
-                                            competitividad_index < 4 ~ "<4",
-                                            competitividad_index > 5 ~ ">5",
-                                            is.na(competitividad_index) ~ "No disponible")
-    ) %>% 
-    lmer(data = .,
-       formula = tiempo_promedio ~ (1|gobierno) + (1|mesanho_publicacion) + cutoff + fragmentation_category + competitividad_category) %>% 
-    summary()
+## semestral
