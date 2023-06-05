@@ -39,3 +39,24 @@ write_parquet(osce_infogob2, "data/03_model/osce_infogob_oci_monthly.parquet")
 write.csv(osce_infogob2, "data/03_model/osce_infogob_oci_monthly.csv")
 
 ## semestral
+osce_infogob3 <- semestral_indices_df %>% 
+    mutate(semester = as.Date(semester)) %>% 
+    left_join(osce_infogob_matching, by = c("gobierno")) %>% 
+    left_join(controles_infogob_semestral %>% rename(semester = date), by = c("region", "provincia", "distrito", "semester")) %>% 
+    left_join(controles_oci_semestral %>% rename(semester = date),
+              by = c("gobierno", "semester"))
+
+osce_infogob3 <- osce_infogob3 %>%
+    replace_na(list(
+        OCI_exists_any = 0, 
+        OCI_exists_proportion = 0,
+        OCI_exists_count = 0,
+        OCI_incorporated_any = 0,
+        OCI_incorporated_proportion = 0,
+        OCI_incorporated_count = 0
+    )) %>% 
+    ungroup()
+
+# save
+write_parquet(osce_infogob3, "data/03_model/osce_infogob_oci_semester.parquet") 
+write.csv(osce_infogob3, "data/03_model/osce_infogob_oci_semester.csv")
