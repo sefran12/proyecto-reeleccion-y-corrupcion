@@ -27,6 +27,7 @@ unique(OCI_df$fecha_de_incorporacion)
 # Create a sequence of dates from 2010 to 2022 for each month and semester
 monthly_dates <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "month")
 semestral_dates <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "6 months")
+yearly_panel <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "year")
 
 # Create a function to generate panel data
 create_panel <- function(dates){
@@ -51,7 +52,9 @@ create_panel <- function(dates){
 # Create monthly and semestral panel data
 monthly_panel <- create_panel(monthly_dates)
 semestral_panel <- create_panel(semestral_dates)
+yearly_panel <- create_panel(yearly_dates)
 
 # write data
 write_parquet(monthly_panel, "data/02_intermediate/controles_OCI_mensual.parquet")
 write_parquet(semestral_panel, "data/02_intermediate/controles_OCI_semestral.parquet")
+write_parquet(yearly_panel, "data/02_intermediate/controles_OCI_yearly.parquet")

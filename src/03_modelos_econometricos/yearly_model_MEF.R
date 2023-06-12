@@ -9,13 +9,13 @@ library(lme4)
 library(plm)
 
 # load data
-osce_infogob_oci <- read_parquet("data/03_model/osce_infogob_oci_semester_2017.parquet") %>% ungroup()
-colnames(osce_infogob_oci)
-#skimr::skim(osce_infogob_oci)
+mef_infogob_oci <- read_parquet("data/03_model/mef_infogob_oci_anual.parquet") %>% ungroup()
+colnames(mef_infogob_oci)
+#skimr::skim(mef_infogob_oci)
 
 # Feature engineering
-model_df <- osce_infogob_oci %>% mutate(
-    cutoff = semester > "2014-01-01",
+model_df <- mef_infogob_oci %>% mutate(
+    cutoff = date > "2014-01-01",
     fragmentation_category = case_when(fragmentation_index < 0 ~ "<0",
                                        fragmentation_index < 0.25 ~ "<0.25",
                                        fragmentation_index < 0.5 ~ "<0.5",
@@ -32,22 +32,20 @@ model_df <- osce_infogob_oci %>% mutate(
 )
 
 # make plm dataframe for panel models
-plm_model_df <- pdata.frame(model_df %>% filter(!is.na(gobierno), !is.na(semester)) %>% distinct(gobierno, semester, .keep_all = TRUE),
-                            index = c("gobierno", "semester"))
+plm_model_df <- pdata.frame(model_df %>% filter(!is.na(gobierno), !is.na(date)) %>% distinct(gobierno, date, .keep_all = TRUE),
+                            index = c("gobierno", "date"))
 
 # Indices to be analyzed
-indices <- c("repeated_postores", "total_postores", "perc_repeated_postores", 
-             "repeated_winners", "perc_repeated_winners", "num_projects")
-explanation <- c("Número de postores repetidos semestre a semestre",
-                 "Total de postores",
-                 "Porcentaje de postores repetidos semestra a semestre",
-                 "Número de ganadores repetidos semestre a semestre",
-                 "Porcentaje de ganadores repetidos semestra a semestre", 
-                 "Número de proyectos que cubren el 80% del valor total, de mayor a menor")
+indices <- c("perc_proyectos_debajo_cutoff", "num_proyectos_debajo_cutoff", "perc_proyectos_sobrecosto", 
+             "total_pia_value_proyectos_debajo_cutoff")
+explanation <- c("Porcentaje de proyectos debajo del corte OSCE",
+                 "Número de proyectos debajo del corte OSCE",
+                 "Porcentaje de proyectos con sobrecosto",
+                 "Total del PIA de los proyectos debajo del corte OSCE")
 
 # Calculate models
 result_list <- list()
-tipo_bien <- unique(plm_model_df$OBJETO)
+tipo_bien <- c("Total")
 
 for (i in seq_along(indices)) {
     # Initialize a list to store the results for each objeto
@@ -58,14 +56,14 @@ for (i in seq_along(indices)) {
         print(paste0("Processing ", index, " for ", objeto, " ..."))
         
         # Subset the data for the current objeto
-        subset_model_df <- model_df %>% filter(OBJETO == objeto)
-        subset_plm_model_df <- plm_model_df %>% filter(OBJETO == objeto)
+        subset_model_df <- model_df
+        subset_plm_model_df <- plm_model_df
         
         # Try to fit each model, and print a message if an error occurs
         linear_model <- tryCatch({
             lm(data = subset_model_df, 
                formula = reformulate("cutoff + fragmentation_category + competitividad_category + 
-              gender_of_mayor + OCI_exists_any + OCI_incorporated_any", 
+              gender_of_mayor + OCI_exists + OCI_incorporated", 
               response = index))
         }, error = function(e) {
             print(paste0("Error in linear model for index ", index, ", objeto ", objeto, ": ", e$message))
@@ -74,9 +72,9 @@ for (i in seq_along(indices)) {
         
         mixed_model <- tryCatch({
             lmer(data = subset_model_df, 
-                 formula = reformulate("(1|gobierno) + (1|semester) + 
+                 formula = reformulate("(1|gobierno) + (1|date) + 
               cutoff  + fragmentation_category + competitividad_category + 
-              gender_of_mayor + OCI_exists_any + OCI_incorporated_any", 
+              gender_of_mayor + OCI_exists + OCI_incorporated", 
               response = index))
         }, error = function(e) {
             print(paste0("Error in mixed model for index ", index, ", objeto ", objeto, ": ", e$message))
@@ -86,7 +84,7 @@ for (i in seq_along(indices)) {
         individual_within_model <- tryCatch({
             plm(data = subset_plm_model_df, 
                 formula = reformulate("cutoff + fragmentation_category + competitividad_category +
-              gender_of_mayor + OCI_exists_any + OCI_incorporated_any", 
+              gender_of_mayor + OCI_exists + OCI_incorporated", 
               response = index),
               model = "within", effect = "individual")
         }, error = function(e) {

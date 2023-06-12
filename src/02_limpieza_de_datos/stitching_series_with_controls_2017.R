@@ -13,6 +13,15 @@ controles_infogob_semestral <- read_parquet("data/02_intermediate/controles_info
 osce_infogob_matching <- read_parquet("data/02_intermediate/osce_infogob_entity_name_matching.parquet")
 osce_oci_matching <- read_parquet("data/02_intermediate/osce_oci_entity_name_matching.parquet")
 
+
+mef_indices_df <- read_parquet("data/02_intermediate/MEF/mef_data.parquet")
+mef_infogob_matching <- read_parquet("data/02_intermediate/mef_infogob_matching.parquet")
+mef_oci_matching <- read_parquet("data/02_intermediate/mef_oci_matching.parquet")
+
+controles_oci_yearly <- read_parquet("data/02_intermediate/controles_OCI_yearly.parquet")
+controles_infogob_yearly <- read_parquet("data/02_intermediate/controles_infogob_anual.parquet")
+
+### OSCE
 ## Monthly
 osce_infogob2 <- monthly_indices_df %>% 
     mutate(mesanho_publicacion = as.Date(mesanho_publicacion)) %>% 
@@ -59,3 +68,16 @@ osce_infogob3 <- osce_infogob3 %>%
 # save
 write_parquet(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017.parquet") 
 write.csv(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017.csv")
+
+### MEF
+mef_total <- mef_indices_df %>% 
+    mutate(
+        date = as.Date(paste(ANO_EJE, 1, 1, sep = "-"))
+    ) %>% 
+    left_join(mef_oci_matching %>% ungroup() %>% distinct(gobierno, nombre_entidad)) %>% 
+    left_join(mef_infogob_matching %>% ungroup() %>% distinct(gobierno, full_name, region, provincia, distrito)) %>% 
+    left_join(controles_infogob_yearly, by = c("region", "provincia", "distrito", "date")) %>% 
+    left_join(controles_oci_yearly,
+              by = c("nombre_entidad", "date"))
+
+write_parquet(mef_total, "data/03_model/mef_infogob_oci_anual.parquet")

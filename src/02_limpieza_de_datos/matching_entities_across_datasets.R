@@ -3,6 +3,7 @@ library(arrow)
 library(tidyverse)
 library(janitor)
 library(readxl)
+library(fuzzyjoin)
 
 ## OSCE - INFOGOB
 
@@ -183,3 +184,59 @@ semestral_panel <- semestral_panel %>%
 # Rewrite and update
 write_parquet(monthly_panel, "data/02_intermediate/controles_OCI_mensual.parquet")
 write_parquet(semestral_panel, "data/02_intermediate/controles_OCI_semestral.parquet")
+
+### MEF - OCI
+mef_data <- read_parquet("data/02_intermediate/MEF/mef_data.parquet")
+
+OCI_df <- read_excel("data/01_raw/ESTADO DE ENTIDADES CON OCI INCORPORADOS AL_15FEB2023_rev (1).xlsx", sheet = 2)
+OCI_df <- clean_names(OCI_df)
+
+OCI_df %>% 
+    mutate(
+        gobierno = paste()
+    )
+
+fuzzy_match <- stringdist_left_join(
+    mef_data %>% distinct(gobierno), 
+    OCI_df %>% distinct(nombre_entidad), 
+    by = c("gobierno" = "nombre_entidad"), 
+    max_dist = 5, 
+    method = "lcs",
+    distance_col = "string_distance"
+)
+
+fuzzy_match <- fuzzy_match %>% 
+    group_by(gobierno) %>% 
+    slice_min(string_distance, n = 1, with_ties = FALSE)
+
+# save
+write_parquet(fuzzy_match, "data/02_intermediate/mef_oci_matching.parquet")
+
+### MEF - INFOGOB
+controles_infogob <- read_parquet("data/02_intermediate/controles_infogob.parquet")
+
+controles_infogob <- controles_infogob %>% 
+    mutate(
+        full_name = case_when(
+            tipo_municipalidad == "distrital" ~ str_c("MUNICIPALIDAD DISTRITAL DE", distrito, sep = " "),
+            tipo_municipalidad == "provincial" ~ str_c("MUNICIPALIDAD PROVINCIAL DE", provincia, sep = " ")
+        )
+    )
+
+
+fuzzy_match <- stringdist_left_join(
+    mef_data %>% ungroup() %>%  distinct(gobierno), 
+    controles_infogob %>% distinct(full_name), 
+    by = c("gobierno" = "full_name"), 
+    max_dist = 12, 
+    method = "lcs",
+    distance_col = "string_distance"
+)
+
+fuzzy_match <- fuzzy_match %>% 
+    group_by(gobierno) %>% 
+    slice_min(string_distance, n = 1, with_ties = FALSE)
+
+# save
+write_parquet(fuzzy_match, "data/02_intermediate/mef_infogob_matching.parquet")
+

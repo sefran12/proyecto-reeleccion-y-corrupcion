@@ -114,10 +114,12 @@ create_panel_infogob <- function(dates){
 # Generate list of all first dates of the months and semesters within the range
 monthly_dates <- seq(as.Date("2002-01-01"), as.Date("2022-12-01"), by = "month")
 semestral_dates <- seq(as.Date("2002-01-01"), as.Date("2022-07-01"), by = "6 months")
+yearly_dates <- seq(as.Date("2002-01-01"), as.Date("2022-07-01"), by = "year")
 
 # Create expanded datasets
 monthly_infogob <- create_panel_infogob(monthly_dates)
 semestral_infogob <- create_panel_infogob(semestral_dates)
+yearly_infogob <- create_panel_infogob(yearly_dates)
 
 # 'fill' yearly data to each month within the same year
 monthly_infogob <- monthly_infogob %>%
@@ -132,3 +134,4 @@ semestral_infogob <- semestral_infogob %>%
 # Write data
 write_parquet(monthly_infogob, "data/02_intermediate/controles_infogob_mensual.parquet")
 write_parquet(semestral_infogob, "data/02_intermediate/controles_infogob_semestral.parquet")
+write_parquet(yearly_infogob, "data/02_intermediate/controles_infogob_anual.parquet")
