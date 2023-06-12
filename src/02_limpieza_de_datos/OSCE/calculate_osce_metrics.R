@@ -32,8 +32,8 @@ numero_ganadores <- df_adjudicaciones %>%
     summarise(
         n_ganadores = n_unique(ruc_ganador)
     )
-# Valor medio de los proyectos adjudicados (TODOS)
 
+# Valor medio de los proyectos adjudicados (TODOS)
 valor_proyectos_adjudicados <- df_adjudicaciones %>%
     group_by(mesanho_publicacion, gobierno) %>%
     summarise(
@@ -236,3 +236,27 @@ semestral_df <- semestral_df %>%
 # save semestral data
 write_parquet(semestral_df, "data/02_intermediate/OSCE/semestral_indices.parquet")
 write_csv(semestral_df, "data/02_intermediate/OSCE/semestral_indices.csv")
+
+# Valor adjudicado promedio: Construir referencia:
+# Promedio por año, por gobierno, por tipo de proceso, de las adjudicaciones
+# y vemos si estos promedios están creciendo
+
+# Ratio promedio valor: Hasta 2017, por tipo de servicio
+# Igual con proyectos y numero de un solo postor.
+
+# Agregar los modelos abajo.
+# Tiempo promedio de publicacion: wrt tiempo promedio de servicio anual. Por tipo de servicio
+# Total de postores: 2017, tipo de servicio
+
+# Porcentaje de postores repetidos: Añadir porcentaje de ganadores repetidos
+# Añadir tipo de servicio.
+
+# Numero de proyectos que cubren 80%, añadir por tipo de servicio.
+
+# Sobretiempo y sobrecosto SIAF y proyectos que no entraron en OSCE: Total de contrataciones sin proceso en OSCE (pero si en SIAF)
+# (ver si pasan o no UIT)
+# 2010-2022 siempre 8 UIT
+# Valor total de estos proyecto, numero de proyectos, porcentaje de proyectos, o con respecto a un promedio
+# % respecto al total.
+
+# Dejar de lado tablas de concentración
