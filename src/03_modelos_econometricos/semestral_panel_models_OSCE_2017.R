@@ -46,7 +46,7 @@ explanation <- c("Número de postores repetidos semestre a semestre",
                  "Número de proyectos que cubren el 80% del valor total, de mayor a menor")
 
 # Calculate models
-result_list_objeto <- list()
+result_list <- list()
 tipo_bien <- unique(plm_model_df$OBJETO)
 
 for (i in seq_along(indices)) {
@@ -95,9 +95,33 @@ for (i in seq_along(indices)) {
         })
         
         # Capture the tab_model output, using the corresponding explanation as the title
+        
+        # Initialize a list to store the models
+        models <- list()
+        
+        if (!is.null(linear_model)) {
+            models$linear_model <- linear_model
+        }
+        
+        if (!is.null(mixed_model)) {
+            models$mixed_model <- mixed_model
+        }
+        
+        if (!is.null(individual_within_model)) {
+            models$individual_within_model <- individual_within_model
+        }
+        
+        # Capture the tab_model output, using the corresponding explanation as the title
         model_table <- tryCatch({
-            tab_model(linear_model, mixed_model, individual_within_model, 
-                      title = paste0(explanation[i], " for ", objeto))
+            if(length(models) == 3){
+                tab_model(models$linear_model, models$mixed_model, models$individual_within_model, title = paste0(explanation[i], " for ", objeto))
+            } else if(length(models) == 2){
+                names <- names(models)
+                tab_model(models[[names[1]]], models[[names[2]]], title = paste0(explanation[i], " for ", objeto))
+            } else if(length(models) == 1){
+                names <- names(models)
+                tab_model(models[[names[1]]], title = paste0(explanation[i], " for ", objeto))
+            }
         }, error = function(e) {
             print(paste0("Error in tab_model for index ", index, ", objeto ", objeto, ": ", e$message))
             NULL
@@ -106,6 +130,8 @@ for (i in seq_along(indices)) {
         if (!is.null(model_table)) {
             result_list_objeto[[paste0(index, "_", objeto)]] <- model_table
         }
+        
+        
         
         print(paste0("Completed ", index, " for ", objeto))
     }
