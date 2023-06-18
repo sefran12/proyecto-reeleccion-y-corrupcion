@@ -79,7 +79,7 @@ osce_infogob_matching <- distrital_matching %>%
 # write
 write_parquet(osce_infogob_matching, "data/02_intermediate/osce_infogob_entity_name_matching.parquet")
 
-### LINK gobiernoES CON OCI with OSCE
+### LINK gobiernos CON OCI with OSCE
 
 OCI_df <- read_excel("data/01_raw/ESTADO DE ENTIDADES CON OCI INCORPORADOS AL_15FEB2023_rev (1).xlsx", sheet = 2)
 OCI_df <- clean_names(OCI_df)
@@ -91,7 +91,9 @@ combined_df_adjudicaciones$ruc_entidad <- as.character(combined_df_adjudicacione
 regex_pattern <- "^(GOBIERNO REGIONAL (?:DE )?\\w+|MUNICIPALIDAD (?:DISTRITAL|PROVINCIAL) (?:DE )?[\\w\\s]+?(?= -|- |$))"
 
 # Remove duplicates
-OCI_df <- OCI_df %>% distinct(ruc_entidad, nombre_entidad)
+OCI_df <- OCI_df %>%
+    distinct(ruc_entidad, nombre_entidad)
+
 combined_df_adjudicaciones <- combined_df_adjudicaciones %>%
     mutate(gobierno = str_extract(ENTIDAD, regex_pattern),
            gobierno = str_remove(gobierno, "SEDE CENTRAL|Sede Central|sede central")) %>% 
@@ -111,6 +113,9 @@ adjudicaciones_remaining <- combined_df_adjudicaciones %>%
 
 # Perform fuzzy matching for the remaining entities
 OCI_remaining_unique <- OCI_remaining %>% 
+    # mutate(
+    #     nombre_entidad = str_extract(nombre_entidad, regex_pattern)
+    # ) %>%  
     select(nombre_entidad) %>% 
     distinct()
 
@@ -122,7 +127,7 @@ fuzzy_match <- stringdist_left_join(
     adjudicaciones_remaining_unique, 
     OCI_remaining_unique, 
     by = c("gobierno" = "nombre_entidad"), 
-    max_dist = 5, 
+    max_dist = 2, 
     method = "lcs",
     distance_col = "string_distance"
 )
@@ -190,11 +195,6 @@ mef_data <- read_parquet("data/02_intermediate/MEF/mef_data.parquet")
 
 OCI_df <- read_excel("data/01_raw/ESTADO DE ENTIDADES CON OCI INCORPORADOS AL_15FEB2023_rev (1).xlsx", sheet = 2)
 OCI_df <- clean_names(OCI_df)
-
-OCI_df %>% 
-    mutate(
-        gobierno = paste()
-    )
 
 fuzzy_match <- stringdist_left_join(
     mef_data %>% distinct(gobierno), 

@@ -213,7 +213,7 @@ get_overlap <- function(current, previous) {
 postores_overlap <- postores_per_entity %>%
     group_by(gobierno, OBJETO) %>%
     mutate(
-        postores_previous = lag(postores),
+        postores_previous = dplyr::lag(postores),
         repeated_postores = map2_int(postores, postores_previous, get_overlap),
         total_postores = map_int(postores, length),
         perc_repeated_postores = repeated_postores / total_postores * 100
@@ -235,7 +235,7 @@ get_overlap <- function(current, previous) {
 winners_overlap <- winners_per_entity %>%
     group_by(gobierno, OBJETO) %>%
     mutate(
-        winners_previous = lag(winners),
+        winners_previous = dplyr::lag(winners),
         repeated_winners = map2_int(winners, winners_previous, get_overlap),
         total_winners = map_int(winners, length),
         perc_repeated_winners = repeated_winners / total_winners * 100

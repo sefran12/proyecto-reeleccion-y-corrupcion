@@ -1,0 +1,1363 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+caption { font-weight: bold; text-align:left; }
+td {  }
+.thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#f2f2f2; }
+.summary { padding-top:0.1cm; padding-bottom:0.1cm; }
+.summarydata { text-align:left; }
+.fixedparts { font-weight:bold; text-align:left; }
+.randomparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.lasttablerow { border-bottom: double; }
+.firsttablerow {  }
+.firstsumrow { border-top:1px solid; }
+.labelcellborder { border-bottom:1px solid; }
+.depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.leftalign { text-align:left; }
+.centeralign { text-align:center; }
+.firsttablecol { text-align:left; }
+.footnote { font-style:italic; border-top:double black; text-align:right; }
+.subtitle { font-weight: normal; }
+.modelcolumn1 {  }
+.modelcolumn2 {  }
+.modelcolumn3 {  }
+.modelcolumn4 {  }
+.modelcolumn5 {  }
+.modelcolumn6 {  }
+.modelcolumn7 {  }
+.col1 {  }
+.col2 {  }
+.col3 {  }
+.col4 {  }
+.col5 {  }
+.col6 {  }
+</style>
+</head>
+<body>
+<table>
+<caption>Número de ganadores repetidos semestre a semestre for Servicios and Highly Fragmented</caption>
+  <tr>
+    <th class="thead firsttablerow firsttablecol col1">&nbsp;</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+  </tr>
+  <tr>
+    <td class="depvarhead firsttablerow firsttablecol col1">Predictors</td>
+    <td class="depvarhead firsttablerow col2">Estimates</td>
+    <td class="depvarhead firsttablerow col3">CI</td>
+    <td class="depvarhead firsttablerow col4">p</td>
+    <td class="depvarhead firsttablerow col5">Estimates</td>
+    <td class="depvarhead firsttablerow col6">CI</td>
+    <td class="depvarhead firsttablerow col7">p</td>
+    <td class="depvarhead firsttablerow col8">Estimates</td>
+    <td class="depvarhead firsttablerow col9">CI</td>
+    <td class="depvarhead firsttablerow col10">p</td>
+  </tr>
+  <tr>
+    <td class="tdata firsttablecol col1">(Intercept)</td>
+    <td class="tdata centeralign modelcolumn1 col2">1.72</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;7.21&nbsp;&ndash;&nbsp;10.64</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.706</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.30&nbsp;&ndash;&nbsp;0.20</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.686</td>
+    <td class="tdata centeralign modelcolumn3 col8"></td>
+    <td class="tdata centeralign modelcolumn3 col9"></td>
+    <td class="tdata centeralign modelcolumn3 col10"></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">cutoffTRUE</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.56</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.38&nbsp;&ndash;&nbsp;0.74</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.04</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.02&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.001</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.05</td>
+    <td class="tdata centeralign modelcolumn3 col9">0.03&nbsp;&ndash;&nbsp;0.06</td>
+    <td class="tdata centeralign modelcolumn3 col10"><strong>&lt;0.001</strong></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[<0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.14</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;8.83&nbsp;&ndash;&nbsp;9.10</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.976</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.20&nbsp;&ndash;&nbsp;0.30</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.697</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.43&nbsp;&ndash;&nbsp;0.45</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.962</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[>0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.26</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;8.72&nbsp;&ndash;&nbsp;9.24</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.955</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.04</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.21&nbsp;&ndash;&nbsp;0.29</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.748</td>
+    <td class="tdata centeralign modelcolumn3 col8">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.44&nbsp;&ndash;&nbsp;0.44</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.990</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<3]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.06</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;1.12&nbsp;&ndash;&nbsp;0.99</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.904</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.632</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.08&nbsp;&ndash;&nbsp;0.13</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.673</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<4]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.16</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;1.22&nbsp;&ndash;&nbsp;0.90</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.764</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.671</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.08&nbsp;&ndash;&nbsp;0.12</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.733</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[>5]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.09</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.94&nbsp;&ndash;&nbsp;1.13</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.860</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.337</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.07&nbsp;&ndash;&nbsp;0.13</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.524</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">gender of mayor<br>[Masculino]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;2.28</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;2.59&nbsp;&ndash;&nbsp;-1.96</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.01&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.675</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.04&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.871</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">OCI exists any</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.32</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.17&nbsp;&ndash;&nbsp;0.47</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.403</td>
+</tr>
+  <tr>
+    <td colspan="10" class="randomparts">Random Effects</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&sigma;<sup>2</sup></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.02</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&tau;<sub>00</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">ICC</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.04</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">N</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">708 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">16 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  <tr>
+    <td class="tdata leftalign summary firstsumrow">Observations</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">14862</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">14814</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">4711</td>
+  </tr>
+  <tr>
+    <td class="tdata leftalign summary">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+    <td class="tdata summary summarydata" colspan="3">0.017 / 0.016</td>
+    <td class="tdata summary summarydata" colspan="3">0.019 / 0.062</td>
+    <td class="tdata summary summarydata" colspan="3">0.013 / -0.218</td>
+  </tr>
+
+</table>
+
+</body></html> <html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+caption { font-weight: bold; text-align:left; }
+td {  }
+.thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#f2f2f2; }
+.summary { padding-top:0.1cm; padding-bottom:0.1cm; }
+.summarydata { text-align:left; }
+.fixedparts { font-weight:bold; text-align:left; }
+.randomparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.lasttablerow { border-bottom: double; }
+.firsttablerow {  }
+.firstsumrow { border-top:1px solid; }
+.labelcellborder { border-bottom:1px solid; }
+.depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.leftalign { text-align:left; }
+.centeralign { text-align:center; }
+.firsttablecol { text-align:left; }
+.footnote { font-style:italic; border-top:double black; text-align:right; }
+.subtitle { font-weight: normal; }
+.modelcolumn1 {  }
+.modelcolumn2 {  }
+.modelcolumn3 {  }
+.modelcolumn4 {  }
+.modelcolumn5 {  }
+.modelcolumn6 {  }
+.modelcolumn7 {  }
+.col1 {  }
+.col2 {  }
+.col3 {  }
+.col4 {  }
+.col5 {  }
+.col6 {  }
+</style>
+</head>
+<body>
+<table>
+<caption>Número de ganadores repetidos semestre a semestre for Servicios and Rest</caption>
+  <tr>
+    <th class="thead firsttablerow firsttablecol col1">&nbsp;</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+  </tr>
+  <tr>
+    <td class="depvarhead firsttablerow firsttablecol col1">Predictors</td>
+    <td class="depvarhead firsttablerow col2">Estimates</td>
+    <td class="depvarhead firsttablerow col3">CI</td>
+    <td class="depvarhead firsttablerow col4">p</td>
+    <td class="depvarhead firsttablerow col5">Estimates</td>
+    <td class="depvarhead firsttablerow col6">CI</td>
+    <td class="depvarhead firsttablerow col7">p</td>
+    <td class="depvarhead firsttablerow col8">Estimates</td>
+    <td class="depvarhead firsttablerow col9">CI</td>
+    <td class="depvarhead firsttablerow col10">p</td>
+  </tr>
+  <tr>
+    <td class="tdata firsttablecol col1">(Intercept)</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.06&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.224</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.07&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.349</td>
+    <td class="tdata centeralign modelcolumn3 col8"></td>
+    <td class="tdata centeralign modelcolumn3 col9"></td>
+    <td class="tdata centeralign modelcolumn3 col10"></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">cutoffTRUE</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.06</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.05&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.005</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.06</td>
+    <td class="tdata centeralign modelcolumn3 col9">0.04&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn3 col10"><strong>&lt;0.001</strong></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[<0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.165</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.204</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.05</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.14</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.227</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[>0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.258</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.352</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.06&nbsp;&ndash;&nbsp;0.12</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.565</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<3]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.316</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.895</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.04&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.594</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<4]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.486</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.837</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.471</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[>5]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.403</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.871</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.368</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">gender of mayor<br>[Masculino]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.443</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.496</td>
+    <td class="tdata centeralign modelcolumn3 col8">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.09&nbsp;&ndash;&nbsp;0.09</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.972</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">OCI exists any</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.01&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.03</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.004</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.06</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.574</td>
+</tr>
+  <tr>
+    <td colspan="10" class="randomparts">Random Effects</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&sigma;<sup>2</sup></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.03</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&tau;<sub>00</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">ICC</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.05</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">N</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">676 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">16 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  <tr>
+    <td class="tdata leftalign summary firstsumrow">Observations</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">8549</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">8549</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">3531</td>
+  </tr>
+  <tr>
+    <td class="tdata leftalign summary">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+    <td class="tdata summary summarydata" colspan="3">0.021 / 0.020</td>
+    <td class="tdata summary summarydata" colspan="3">0.015 / 0.066</td>
+    <td class="tdata summary summarydata" colspan="3">0.011 / -0.239</td>
+  </tr>
+
+</table>
+
+</body></html> <html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+caption { font-weight: bold; text-align:left; }
+td {  }
+.thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#f2f2f2; }
+.summary { padding-top:0.1cm; padding-bottom:0.1cm; }
+.summarydata { text-align:left; }
+.fixedparts { font-weight:bold; text-align:left; }
+.randomparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.lasttablerow { border-bottom: double; }
+.firsttablerow {  }
+.firstsumrow { border-top:1px solid; }
+.labelcellborder { border-bottom:1px solid; }
+.depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.leftalign { text-align:left; }
+.centeralign { text-align:center; }
+.firsttablecol { text-align:left; }
+.footnote { font-style:italic; border-top:double black; text-align:right; }
+.subtitle { font-weight: normal; }
+.modelcolumn1 {  }
+.modelcolumn2 {  }
+.modelcolumn3 {  }
+.modelcolumn4 {  }
+.modelcolumn5 {  }
+.modelcolumn6 {  }
+.modelcolumn7 {  }
+.col1 {  }
+.col2 {  }
+.col3 {  }
+.col4 {  }
+.col5 {  }
+.col6 {  }
+</style>
+</head>
+<body>
+<table>
+<caption>Número de ganadores repetidos semestre a semestre for Bienes and Highly Fragmented</caption>
+  <tr>
+    <th class="thead firsttablerow firsttablecol col1">&nbsp;</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+  </tr>
+  <tr>
+    <td class="depvarhead firsttablerow firsttablecol col1">Predictors</td>
+    <td class="depvarhead firsttablerow col2">Estimates</td>
+    <td class="depvarhead firsttablerow col3">CI</td>
+    <td class="depvarhead firsttablerow col4">p</td>
+    <td class="depvarhead firsttablerow col5">Estimates</td>
+    <td class="depvarhead firsttablerow col6">CI</td>
+    <td class="depvarhead firsttablerow col7">p</td>
+    <td class="depvarhead firsttablerow col8">Estimates</td>
+    <td class="depvarhead firsttablerow col9">CI</td>
+    <td class="depvarhead firsttablerow col10">p</td>
+  </tr>
+  <tr>
+    <td class="tdata firsttablecol col1">(Intercept)</td>
+    <td class="tdata centeralign modelcolumn1 col2">1.72</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;7.21&nbsp;&ndash;&nbsp;10.64</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.706</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.30&nbsp;&ndash;&nbsp;0.20</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.686</td>
+    <td class="tdata centeralign modelcolumn3 col8"></td>
+    <td class="tdata centeralign modelcolumn3 col9"></td>
+    <td class="tdata centeralign modelcolumn3 col10"></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">cutoffTRUE</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.56</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.38&nbsp;&ndash;&nbsp;0.74</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.04</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.02&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.001</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.05</td>
+    <td class="tdata centeralign modelcolumn3 col9">0.03&nbsp;&ndash;&nbsp;0.06</td>
+    <td class="tdata centeralign modelcolumn3 col10"><strong>&lt;0.001</strong></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[<0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.14</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;8.83&nbsp;&ndash;&nbsp;9.10</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.976</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.20&nbsp;&ndash;&nbsp;0.30</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.697</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.43&nbsp;&ndash;&nbsp;0.45</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.962</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[>0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.26</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;8.72&nbsp;&ndash;&nbsp;9.24</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.955</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.04</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.21&nbsp;&ndash;&nbsp;0.29</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.748</td>
+    <td class="tdata centeralign modelcolumn3 col8">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.44&nbsp;&ndash;&nbsp;0.44</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.990</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<3]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.06</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;1.12&nbsp;&ndash;&nbsp;0.99</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.904</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.632</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.08&nbsp;&ndash;&nbsp;0.13</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.673</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<4]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.16</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;1.22&nbsp;&ndash;&nbsp;0.90</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.764</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.671</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.08&nbsp;&ndash;&nbsp;0.12</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.733</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[>5]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.09</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.94&nbsp;&ndash;&nbsp;1.13</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.860</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.337</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.07&nbsp;&ndash;&nbsp;0.13</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.524</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">gender of mayor<br>[Masculino]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;2.28</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;2.59&nbsp;&ndash;&nbsp;-1.96</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.01&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.675</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.04&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.871</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">OCI exists any</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.32</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.17&nbsp;&ndash;&nbsp;0.47</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.403</td>
+</tr>
+  <tr>
+    <td colspan="10" class="randomparts">Random Effects</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&sigma;<sup>2</sup></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.02</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&tau;<sub>00</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">ICC</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.04</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">N</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">708 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">16 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  <tr>
+    <td class="tdata leftalign summary firstsumrow">Observations</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">14862</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">14814</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">4711</td>
+  </tr>
+  <tr>
+    <td class="tdata leftalign summary">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+    <td class="tdata summary summarydata" colspan="3">0.017 / 0.016</td>
+    <td class="tdata summary summarydata" colspan="3">0.019 / 0.062</td>
+    <td class="tdata summary summarydata" colspan="3">0.013 / -0.218</td>
+  </tr>
+
+</table>
+
+</body></html> <html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+caption { font-weight: bold; text-align:left; }
+td {  }
+.thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#f2f2f2; }
+.summary { padding-top:0.1cm; padding-bottom:0.1cm; }
+.summarydata { text-align:left; }
+.fixedparts { font-weight:bold; text-align:left; }
+.randomparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.lasttablerow { border-bottom: double; }
+.firsttablerow {  }
+.firstsumrow { border-top:1px solid; }
+.labelcellborder { border-bottom:1px solid; }
+.depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.leftalign { text-align:left; }
+.centeralign { text-align:center; }
+.firsttablecol { text-align:left; }
+.footnote { font-style:italic; border-top:double black; text-align:right; }
+.subtitle { font-weight: normal; }
+.modelcolumn1 {  }
+.modelcolumn2 {  }
+.modelcolumn3 {  }
+.modelcolumn4 {  }
+.modelcolumn5 {  }
+.modelcolumn6 {  }
+.modelcolumn7 {  }
+.col1 {  }
+.col2 {  }
+.col3 {  }
+.col4 {  }
+.col5 {  }
+.col6 {  }
+</style>
+</head>
+<body>
+<table>
+<caption>Número de ganadores repetidos semestre a semestre for Bienes and Rest</caption>
+  <tr>
+    <th class="thead firsttablerow firsttablecol col1">&nbsp;</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+  </tr>
+  <tr>
+    <td class="depvarhead firsttablerow firsttablecol col1">Predictors</td>
+    <td class="depvarhead firsttablerow col2">Estimates</td>
+    <td class="depvarhead firsttablerow col3">CI</td>
+    <td class="depvarhead firsttablerow col4">p</td>
+    <td class="depvarhead firsttablerow col5">Estimates</td>
+    <td class="depvarhead firsttablerow col6">CI</td>
+    <td class="depvarhead firsttablerow col7">p</td>
+    <td class="depvarhead firsttablerow col8">Estimates</td>
+    <td class="depvarhead firsttablerow col9">CI</td>
+    <td class="depvarhead firsttablerow col10">p</td>
+  </tr>
+  <tr>
+    <td class="tdata firsttablecol col1">(Intercept)</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.06&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.224</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.07&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.349</td>
+    <td class="tdata centeralign modelcolumn3 col8"></td>
+    <td class="tdata centeralign modelcolumn3 col9"></td>
+    <td class="tdata centeralign modelcolumn3 col10"></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">cutoffTRUE</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.06</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.05&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.005</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.06</td>
+    <td class="tdata centeralign modelcolumn3 col9">0.04&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn3 col10"><strong>&lt;0.001</strong></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[<0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.165</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.204</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.05</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.14</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.227</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[>0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.258</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.352</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.06&nbsp;&ndash;&nbsp;0.12</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.565</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<3]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.316</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.895</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.04&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.594</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<4]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.486</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.837</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.471</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[>5]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.403</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.871</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.368</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">gender of mayor<br>[Masculino]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.443</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.496</td>
+    <td class="tdata centeralign modelcolumn3 col8">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.09&nbsp;&ndash;&nbsp;0.09</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.972</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">OCI exists any</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.01&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.03</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.004</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.06</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.574</td>
+</tr>
+  <tr>
+    <td colspan="10" class="randomparts">Random Effects</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&sigma;<sup>2</sup></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.03</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&tau;<sub>00</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">ICC</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.05</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">N</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">676 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">16 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  <tr>
+    <td class="tdata leftalign summary firstsumrow">Observations</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">8549</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">8549</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">3531</td>
+  </tr>
+  <tr>
+    <td class="tdata leftalign summary">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+    <td class="tdata summary summarydata" colspan="3">0.021 / 0.020</td>
+    <td class="tdata summary summarydata" colspan="3">0.015 / 0.066</td>
+    <td class="tdata summary summarydata" colspan="3">0.011 / -0.239</td>
+  </tr>
+
+</table>
+
+</body></html> <html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+caption { font-weight: bold; text-align:left; }
+td {  }
+.thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#f2f2f2; }
+.summary { padding-top:0.1cm; padding-bottom:0.1cm; }
+.summarydata { text-align:left; }
+.fixedparts { font-weight:bold; text-align:left; }
+.randomparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.lasttablerow { border-bottom: double; }
+.firsttablerow {  }
+.firstsumrow { border-top:1px solid; }
+.labelcellborder { border-bottom:1px solid; }
+.depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.leftalign { text-align:left; }
+.centeralign { text-align:center; }
+.firsttablecol { text-align:left; }
+.footnote { font-style:italic; border-top:double black; text-align:right; }
+.subtitle { font-weight: normal; }
+.modelcolumn1 {  }
+.modelcolumn2 {  }
+.modelcolumn3 {  }
+.modelcolumn4 {  }
+.modelcolumn5 {  }
+.modelcolumn6 {  }
+.modelcolumn7 {  }
+.col1 {  }
+.col2 {  }
+.col3 {  }
+.col4 {  }
+.col5 {  }
+.col6 {  }
+</style>
+</head>
+<body>
+<table>
+<caption>Número de ganadores repetidos semestre a semestre for Obras and Highly Fragmented</caption>
+  <tr>
+    <th class="thead firsttablerow firsttablecol col1">&nbsp;</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+  </tr>
+  <tr>
+    <td class="depvarhead firsttablerow firsttablecol col1">Predictors</td>
+    <td class="depvarhead firsttablerow col2">Estimates</td>
+    <td class="depvarhead firsttablerow col3">CI</td>
+    <td class="depvarhead firsttablerow col4">p</td>
+    <td class="depvarhead firsttablerow col5">Estimates</td>
+    <td class="depvarhead firsttablerow col6">CI</td>
+    <td class="depvarhead firsttablerow col7">p</td>
+    <td class="depvarhead firsttablerow col8">Estimates</td>
+    <td class="depvarhead firsttablerow col9">CI</td>
+    <td class="depvarhead firsttablerow col10">p</td>
+  </tr>
+  <tr>
+    <td class="tdata firsttablecol col1">(Intercept)</td>
+    <td class="tdata centeralign modelcolumn1 col2">1.72</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;7.21&nbsp;&ndash;&nbsp;10.64</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.706</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.30&nbsp;&ndash;&nbsp;0.20</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.686</td>
+    <td class="tdata centeralign modelcolumn3 col8"></td>
+    <td class="tdata centeralign modelcolumn3 col9"></td>
+    <td class="tdata centeralign modelcolumn3 col10"></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">cutoffTRUE</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.56</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.38&nbsp;&ndash;&nbsp;0.74</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.04</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.02&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.001</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.05</td>
+    <td class="tdata centeralign modelcolumn3 col9">0.03&nbsp;&ndash;&nbsp;0.06</td>
+    <td class="tdata centeralign modelcolumn3 col10"><strong>&lt;0.001</strong></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[<0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.14</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;8.83&nbsp;&ndash;&nbsp;9.10</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.976</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.20&nbsp;&ndash;&nbsp;0.30</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.697</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.43&nbsp;&ndash;&nbsp;0.45</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.962</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[>0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.26</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;8.72&nbsp;&ndash;&nbsp;9.24</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.955</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.04</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.21&nbsp;&ndash;&nbsp;0.29</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.748</td>
+    <td class="tdata centeralign modelcolumn3 col8">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.44&nbsp;&ndash;&nbsp;0.44</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.990</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<3]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.06</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;1.12&nbsp;&ndash;&nbsp;0.99</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.904</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.632</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.08&nbsp;&ndash;&nbsp;0.13</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.673</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<4]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.16</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;1.22&nbsp;&ndash;&nbsp;0.90</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.764</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.671</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.08&nbsp;&ndash;&nbsp;0.12</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.733</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[>5]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.09</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.94&nbsp;&ndash;&nbsp;1.13</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.860</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.337</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.07&nbsp;&ndash;&nbsp;0.13</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.524</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">gender of mayor<br>[Masculino]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;2.28</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;2.59&nbsp;&ndash;&nbsp;-1.96</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.01&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.675</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.04&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.871</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">OCI exists any</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.32</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.17&nbsp;&ndash;&nbsp;0.47</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.403</td>
+</tr>
+  <tr>
+    <td colspan="10" class="randomparts">Random Effects</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&sigma;<sup>2</sup></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.02</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&tau;<sub>00</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">ICC</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.04</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">N</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">708 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">16 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  <tr>
+    <td class="tdata leftalign summary firstsumrow">Observations</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">14862</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">14814</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">4711</td>
+  </tr>
+  <tr>
+    <td class="tdata leftalign summary">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+    <td class="tdata summary summarydata" colspan="3">0.017 / 0.016</td>
+    <td class="tdata summary summarydata" colspan="3">0.019 / 0.062</td>
+    <td class="tdata summary summarydata" colspan="3">0.013 / -0.218</td>
+  </tr>
+
+</table>
+
+</body></html> <html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<style>
+html, body { background-color: white; }
+table { border-collapse:collapse; border:none; }
+caption { font-weight: bold; text-align:left; }
+td {  }
+.thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }
+.tdata { padding:0.2cm; text-align:left; vertical-align:top; }
+.arc { background-color:#f2f2f2; }
+.summary { padding-top:0.1cm; padding-bottom:0.1cm; }
+.summarydata { text-align:left; }
+.fixedparts { font-weight:bold; text-align:left; }
+.randomparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }
+.lasttablerow { border-bottom: double; }
+.firsttablerow {  }
+.firstsumrow { border-top:1px solid; }
+.labelcellborder { border-bottom:1px solid; }
+.depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }
+.leftalign { text-align:left; }
+.centeralign { text-align:center; }
+.firsttablecol { text-align:left; }
+.footnote { font-style:italic; border-top:double black; text-align:right; }
+.subtitle { font-weight: normal; }
+.modelcolumn1 {  }
+.modelcolumn2 {  }
+.modelcolumn3 {  }
+.modelcolumn4 {  }
+.modelcolumn5 {  }
+.modelcolumn6 {  }
+.modelcolumn7 {  }
+.col1 {  }
+.col2 {  }
+.col3 {  }
+.col4 {  }
+.col5 {  }
+.col6 {  }
+</style>
+</head>
+<body>
+<table>
+<caption>Número de ganadores repetidos semestre a semestre for Obras and Rest</caption>
+  <tr>
+    <th class="thead firsttablerow firsttablecol col1">&nbsp;</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+    <th colspan="3" class="thead firsttablerow">repeated winners</th>
+  </tr>
+  <tr>
+    <td class="depvarhead firsttablerow firsttablecol col1">Predictors</td>
+    <td class="depvarhead firsttablerow col2">Estimates</td>
+    <td class="depvarhead firsttablerow col3">CI</td>
+    <td class="depvarhead firsttablerow col4">p</td>
+    <td class="depvarhead firsttablerow col5">Estimates</td>
+    <td class="depvarhead firsttablerow col6">CI</td>
+    <td class="depvarhead firsttablerow col7">p</td>
+    <td class="depvarhead firsttablerow col8">Estimates</td>
+    <td class="depvarhead firsttablerow col9">CI</td>
+    <td class="depvarhead firsttablerow col10">p</td>
+  </tr>
+  <tr>
+    <td class="tdata firsttablecol col1">(Intercept)</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.06&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.224</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.07&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.349</td>
+    <td class="tdata centeralign modelcolumn3 col8"></td>
+    <td class="tdata centeralign modelcolumn3 col9"></td>
+    <td class="tdata centeralign modelcolumn3 col10"></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">cutoffTRUE</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.06</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.05&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.05</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.005</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.06</td>
+    <td class="tdata centeralign modelcolumn3 col9">0.04&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn3 col10"><strong>&lt;0.001</strong></td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[<0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.165</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.204</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.05</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.14</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.227</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">fragmentation category<br>[>0.75]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.01&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.258</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.352</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.06&nbsp;&ndash;&nbsp;0.12</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.565</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<3]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.316</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.895</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.04&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.594</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[<4]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.486</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.837</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.02</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.07</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.471</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">competitividad category<br>[>5]</td>
+    <td class="tdata centeralign modelcolumn1 col2">&#45;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.01</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.403</td>
+    <td class="tdata centeralign modelcolumn2 col5">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.871</td>
+    <td class="tdata centeralign modelcolumn3 col8">0.03</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.08</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.368</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">gender of mayor<br>[Masculino]</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.01</td>
+    <td class="tdata centeralign modelcolumn1 col3">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn1 col4">0.443</td>
+    <td class="tdata centeralign modelcolumn2 col5">0.01</td>
+    <td class="tdata centeralign modelcolumn2 col6">&#45;0.02&nbsp;&ndash;&nbsp;0.04</td>
+    <td class="tdata centeralign modelcolumn2 col7">0.496</td>
+    <td class="tdata centeralign modelcolumn3 col8">&#45;0.00</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.09&nbsp;&ndash;&nbsp;0.09</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.972</td>
+</tr>
+  <tr>
+    <td class="tdata firsttablecol col1">OCI exists any</td>
+    <td class="tdata centeralign modelcolumn1 col2">0.02</td>
+    <td class="tdata centeralign modelcolumn1 col3">0.01&nbsp;&ndash;&nbsp;0.02</td>
+    <td class="tdata centeralign modelcolumn1 col4"><strong>&lt;0.001</strong></td>
+    <td class="tdata centeralign modelcolumn2 col5">0.02</td>
+    <td class="tdata centeralign modelcolumn2 col6">0.01&nbsp;&ndash;&nbsp;0.03</td>
+    <td class="tdata centeralign modelcolumn2 col7"><strong>0.004</strong></td>
+    <td class="tdata centeralign modelcolumn3 col8">0.01</td>
+    <td class="tdata centeralign modelcolumn3 col9">&#45;0.03&nbsp;&ndash;&nbsp;0.06</td>
+    <td class="tdata centeralign modelcolumn3 col10">0.574</td>
+</tr>
+  <tr>
+    <td colspan="10" class="randomparts">Random Effects</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&sigma;<sup>2</sup></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.03</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td class="tdata leftalign summary">&tau;<sub>00</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.00 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">ICC</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">0.05</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary">N</td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">676 <sub>gobierno</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+
+  <tr>
+    <td class="tdata leftalign summary"></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+    <td class="tdata summary summarydata" colspan="3">16 <sub>semester</sub></td>
+    <td class="tdata summary summarydata" colspan="3">&nbsp;</td>
+  <tr>
+    <td class="tdata leftalign summary firstsumrow">Observations</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">8549</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">8549</td>
+    <td class="tdata summary summarydata firstsumrow" colspan="3">3531</td>
+  </tr>
+  <tr>
+    <td class="tdata leftalign summary">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+    <td class="tdata summary summarydata" colspan="3">0.021 / 0.020</td>
+    <td class="tdata summary summarydata" colspan="3">0.015 / 0.066</td>
+    <td class="tdata summary summarydata" colspan="3">0.011 / -0.239</td>
+  </tr>
+
+</table>
+
+</body></html>

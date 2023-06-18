@@ -27,7 +27,7 @@ unique(OCI_df$fecha_de_incorporacion)
 # Create a sequence of dates from 2010 to 2022 for each month and semester
 monthly_dates <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "month")
 semestral_dates <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "6 months")
-yearly_panel <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "year")
+yearly_dates <- seq(as.Date("2010-01-01"), as.Date("2022-12-31"), by = "year")
 
 # Create a function to generate panel data
 create_panel <- function(dates){

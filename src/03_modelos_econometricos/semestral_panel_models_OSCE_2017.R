@@ -6,6 +6,7 @@ library(broom.mixed)
 library(stargazer)
 library(skimr)
 library(lme4)
+library(arrow)
 library(plm)
 
 # load data
@@ -77,7 +78,8 @@ for (i in seq_along(indices)) {
                  formula = reformulate("(1|gobierno) + (1|semester) + 
               cutoff  + fragmentation_category + competitividad_category + 
               gender_of_mayor + OCI_exists_any + OCI_incorporated_any", 
-              response = index))
+              response = index),
+              control = lmerControl(standardize.X = TRUE))
         }, error = function(e) {
             print(paste0("Error in mixed model for index ", index, ", objeto ", objeto, ": ", e$message))
             NULL

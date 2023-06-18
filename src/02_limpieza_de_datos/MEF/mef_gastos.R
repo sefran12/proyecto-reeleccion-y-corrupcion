@@ -72,4 +72,7 @@ contrataciones_sin_proceso <- df_gastos_bs_serv %>%
 # save
 write_parquet(contrataciones_sin_proceso, "data/02_intermediate/MEF/mef_data.parquet")
 
-              
+# Segmentar por municipalidades estables y no estables (fragmentación)
+# quedarte con muni con las cuales estaban debajo de la mediana de fragmentacion
+
+ 
