@@ -83,11 +83,11 @@ for (i in seq_along(indices)) {
             
             # Subset the data for the current objeto and fragmentation category
             if (fragmentation_category == "Highly Fragmented") {
-                subset_model_df <- model_df %>% filter(fragmented_unit == TRUE)
-                subset_plm_model_df <- plm_model_df %>% filter(fragmented_unit == TRUE)
+                subset_model_df <- model_df %>% filter(fragmented_unit == TRUE, OBJETO == objeto)
+                subset_plm_model_df <- plm_model_df %>% filter(fragmented_unit == TRUE, OBJETO == objeto)
             } else {
-                subset_model_df <- model_df %>% filter(fragmented_unit == FALSE)
-                subset_plm_model_df <- plm_model_df %>% filter(fragmented_unit == FALSE)
+                subset_model_df <- model_df %>% filter(fragmented_unit == FALSE, OBJETO == objeto)
+                subset_plm_model_df <- plm_model_df %>% filter(fragmented_unit == FALSE, OBJETO == objeto)
             }
             print(paste0("Number of observations ", index, " for ", objeto, " and ", fragmentation_category, " is ", as.character(nrow(subset_model_df))))
             
