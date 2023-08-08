@@ -5,7 +5,6 @@ library(lme4)
 library(broom.mixed)
 library(stargazer)
 library(skimr)
-library(lme4)
 library(arrow)
 library(plm)
 
@@ -44,6 +43,7 @@ explanation <- c("Desviación del Valor adjudicado promedio respecto al año ant
                  "Ratio promedio entre el valor postulado versus el valor de referencia")
 
 # Initialize a list to store the results for each objeto
+result_list <- list()
 result_list_objeto <- list()
 tipo_bien <- unique(plm_model_df$OBJETO)
 for (i in seq_along(indices)) {

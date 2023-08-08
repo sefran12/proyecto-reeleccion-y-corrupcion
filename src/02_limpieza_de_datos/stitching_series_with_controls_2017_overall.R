@@ -2,12 +2,12 @@
 library(tidyverse)
 library(arrow)
 
-monthly_indices_df <- read_parquet("data/02_intermediate/OSCE/monthly_indices_2017.parquet")
+monthly_indices_df <- read_parquet("data/02_intermediate/OSCE/monthly_indices_2017_overall.parquet")
 controles_oci_monthly <- read_parquet("data/02_intermediate/controles_OCI_mensual.parquet")
 controles_infogob_monthly <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
 controles_canon_monthly <- read_parquet("data/02_intermediate/controles_percentage_canon_mensual.parquet")
 
-semestral_indices_df <- read_parquet("data/02_intermediate/OSCE/semestral_indices_2017.parquet")
+semestral_indices_df <- read_parquet("data/02_intermediate/OSCE/semestral_indices_2017_overall.parquet")
 controles_oci_semestral <- read_parquet("data/02_intermediate/controles_OCI_semestral.parquet")
 controles_infogob_semestral <- read_parquet("data/02_intermediate/controles_infogob_semestral.parquet")
 controles_canon_semestral <- read_parquet("data/02_intermediate/controles_percentage_canon_semestral.parquet")
@@ -48,8 +48,8 @@ osce_infogob2 <- osce_infogob2 %>%
     ungroup()
 
 # save
-write_parquet(osce_infogob2, "data/03_model/osce_infogob_oci_monthly_2017.parquet") 
-write.csv(osce_infogob2, "data/03_model/osce_infogob_oci_monthly_2017.csv")
+write_parquet(osce_infogob2, "data/03_model/osce_infogob_oci_monthly_2017_overall.parquet") 
+write.csv(osce_infogob2, "data/03_model/osce_infogob_oci_monthly_2017_overall.csv")
 
 ## semestral
 osce_infogob3 <- semestral_indices_df %>% 
@@ -80,8 +80,8 @@ controles_infogob_monthly %>%
     ) %>% clipr::write_clip()
 
 # save
-write_parquet(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017.parquet") 
-write.csv(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017.csv")
+write_parquet(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017_overall.parquet") 
+write.csv(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017_overall.csv")
 
 ### MEF
 mef_total <- mef_indices_df %>% 
@@ -94,4 +94,4 @@ mef_total <- mef_indices_df %>%
     left_join(controles_oci_yearly,
               by = c("nombre_entidad", "date"))
 
-write_parquet(mef_total, "data/03_model/mef_infogob_oci_anual.parquet")
+write_parquet(mef_total, "data/03_model/mef_infogob_oci_anual_overall.parquet")

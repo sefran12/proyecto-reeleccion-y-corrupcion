@@ -56,13 +56,17 @@ df_gastos_bs_serv <- df_gastos_bs_serv %>%
     mutate(
         gobierno = str_extract(PLIEGO_NOMBRE, regex_pattern),
         gobierno = str_remove(gobierno, "SEDE CENTRAL|Sede Central|sede central")
-    ) %>% 
-    filter(!is.na(gobierno))
+    ) #%>% 
+#    filter(!is.na(gobierno))
 
 #2. 
 contrataciones_sin_proceso <- df_gastos_bs_serv %>% 
-    group_by(ANO_EJE, gobierno) %>% 
-    summarise(
+    mutate(tipo_municipalidad = case_when(str_detect(gobierno, "PROVINCIAL") ~ "provincial",
+                                          str_detect(gobierno, "GOBI") ~ "regional",
+                                          str_detect(gobierno, "DIS") ~ "distrital",
+                                          TRUE ~ "Otra entidad")) %>% 
+    group_by(ANO_EJE, gobierno, tipo_municipalidad) %>% 
+    summarise(,
         perc_proyectos_debajo_cutoff = mean(passes_cutoff, na.rm = TRUE),
         total_pia_value_proyectos_debajo_cutoff = sum(passes_cutoff * MONTO_PIA, na.rm = TRUE),
         num_proyectos_debajo_cutoff = sum(passes_cutoff, na.rm = TRUE),
@@ -75,4 +79,98 @@ write_parquet(contrataciones_sin_proceso, "data/02_intermediate/MEF/mef_data.par
 # Segmentar por municipalidades estables y no estables (fragmentación)
 # quedarte con muni con las cuales estaban debajo de la mediana de fragmentacion
 
- 
+## PLOTS FOR DEBUGGING AND ANALYSIS
+
+# Unconditional histogram
+p1_perc <- contrataciones_sin_proceso %>%
+    ggplot(aes(x = perc_proyectos_debajo_cutoff)) +
+    geom_histogram(bins = 50, color = "black", fill = "white") +
+    labs(title = "Distribution of Projects Below Cutoff Percentage", x = "Projects Below Cutoff Percentage", y = "Frequency")
+
+# Histogram conditional on year
+p2_perc <- contrataciones_sin_proceso %>%
+    ggplot(aes(x = perc_proyectos_debajo_cutoff)) +
+    geom_histogram(bins = 50, color = "black", fill = "white") +
+    facet_wrap(~ANO_EJE, scales = "free") +
+    labs(title = "Distribution of Projects Below Cutoff Percentage by Year", x = "Projects Below Cutoff Percentage", y = "Frequency")
+
+# Histogram conditional on tipo_municipalidad
+p3_perc <- contrataciones_sin_proceso %>%
+    ggplot(aes(x = perc_proyectos_debajo_cutoff)) +
+    geom_histogram(bins = 50, color = "black", fill = "white") +
+    facet_wrap(~tipo_municipalidad, ncol = 1, scales = "free") +
+    labs(title = "Distribution of Projects Below Cutoff Percentage by Gobierno", x = "Projects Below Cutoff Percentage", y = "Frequency")
+
+# Display the plots
+p1_perc
+p2_perc
+p3_perc
+
+
+contrataciones_sin_proceso %>% 
+    ggplot(aes(x = ANO_EJE, y = perc_proyectos_debajo_cutoff, group = gobierno)) +
+    geom_line(alpha = 0.01) +
+    geom_line(
+        data = contrataciones_sin_proceso %>% 
+            group_by(ANO_EJE) %>% 
+            summarise(
+                perc = mean(perc_proyectos_debajo_cutoff)
+            ),
+        aes(x = ANO_EJE, y = perc),
+        color = "red", inherit.aes = FALSE
+    ) +
+    geom_vline(xintercept = 2014.8)
+
+contrataciones_sin_proceso %>% 
+    group_by(ANO_EJE, tipo_municipalidad) %>% 
+    summarise(
+        perc_proyectos_debajo_cutoff = mean(perc_proyectos_debajo_cutoff, na.rm = TRUE)
+    ) %>% 
+    ggplot(aes(x = ANO_EJE, y = perc_proyectos_debajo_cutoff, color = tipo_municipalidad)) +
+    geom_line(alpha = 1) +
+    geom_vline(xintercept = 2014.8)
+
+contrataciones_sin_proceso %>% 
+    ggplot(aes(x = ANO_EJE, y = perc_proyectos_debajo_cutoff, group = gobierno)) +
+    geom_line(alpha = 0.01) +
+    geom_line(
+        data = contrataciones_sin_proceso %>% 
+            group_by(ANO_EJE) %>% 
+            summarise(
+                perc = mean(perc_proyectos_debajo_cutoff)
+            ),
+        aes(x = ANO_EJE, y = perc),
+        color = "red", inherit.aes = FALSE
+    ) +
+    geom_smooth(
+        data = contrataciones_sin_proceso %>% 
+            filter(ANO_EJE >= 2010 & ANO_EJE <= 2014),
+        aes(group = 1),
+        method = "loess", se = FALSE, color = "blue"
+    ) +
+    geom_smooth(
+        data = contrataciones_sin_proceso %>% 
+            filter(ANO_EJE >= 2015 & ANO_EJE <= 2017),
+        aes(group = 1),
+        method = "loess", se = FALSE, color = "green"
+    ) +
+    geom_smooth(
+        data = contrataciones_sin_proceso %>% 
+            filter(ANO_EJE >= 2018 & ANO_EJE <= 2020),
+        aes(group = 1),
+        method = "loess", se = FALSE, color = "purple"
+    ) +
+    geom_vline(xintercept = 2014.8)
+
+## ANALISIS FACTORIAL DEL INDICE COMPUESTO (MEF + OSCE)
+# Si hay un solo factor, ese factor
+
+## MODELOS DEL ÍNDICE COMPUESTO (MEF + OSCE)
+
+## VARIACION DEL INDICE EN EL TIEMPO (GRÁFICO) (MEF + OSCE)
+
+## TABLAS DE LAS REGRESIONES FINALES
+# Tabla de efectos esperados
+# Tabla de variables
+# Tabla de controles
+# Tabla de variables mas controles

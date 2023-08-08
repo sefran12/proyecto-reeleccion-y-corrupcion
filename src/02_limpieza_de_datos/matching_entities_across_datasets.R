@@ -8,7 +8,7 @@ library(fuzzyjoin)
 ## OSCE - INFOGOB
 
 # infogob
-controles_infogob <- read_parquet("data/02_intermediate/controles_infogob.parquet")
+controles_infogob <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
 combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/merged_adjudicaciones_data.parquet")
 
 # osce metrics
@@ -20,7 +20,8 @@ controles_infogob <- controles_infogob %>%
     mutate(
         full_name = case_when(
             tipo_municipalidad == "distrital" ~ str_c("MUNICIPALIDAD DISTRITAL DE", distrito, sep = " "),
-            tipo_municipalidad == "provincial" ~ str_c("MUNICIPALIDAD PROVINCIAL DE", provincia, sep = " ")
+            tipo_municipalidad == "provincial" ~ str_c("MUNICIPALIDAD PROVINCIAL DE", provincia, sep = " "),
+            tipo_municipalidad == "regional" ~ str_c("GOBIERNO REGIONAL DE", region, sep = " ")
         )
     )
 
@@ -37,6 +38,12 @@ provinciales_infogob <- controles_infogob %>%
     select(full_name) %>% 
     unique()
 
+regionales_infogob <- controles_infogob %>% 
+    filter(tipo_municipalidad == "regional") %>%
+    select(full_name) %>% 
+    unique()
+
+
 distritales_adjudicaciones <- monthly_osce %>% 
     ungroup() %>% 
     filter(str_detect(gobierno, "^MUNICIPALIDAD DISTRITAL")) %>%
@@ -48,6 +55,13 @@ provinciales_adjudicaciones <- monthly_osce %>%
     filter(str_detect(gobierno, "^MUNICIPALIDAD PROVINCIAL")) %>%
     select(gobierno) %>% 
     unique()
+
+regionales_adjudicaciones <- monthly_osce %>% 
+    ungroup() %>% 
+    filter(str_detect(gobierno, "^GOBIERNO REGIONAL")) %>%
+    select(gobierno) %>% 
+    unique()
+
 
 distrital_matching <- stringdist_full_join(
     distritales_adjudicaciones, 
@@ -73,8 +87,21 @@ provincial_matching <- provincial_matching %>%
     group_by(gobierno) %>% 
     slice_min(string_distance, n = 1, with_ties = FALSE)
 
+regional_matching <- stringdist_left_join(
+    regionales_adjudicaciones, 
+    regionales_infogob, 
+    by = c("gobierno" = "full_name"), 
+    max_dist = 15, method = "lcs",
+    distance_col = "string_distance"
+)
+
+regional_matching <- regional_matching %>% 
+    group_by(gobierno) %>% 
+    slice_min(string_distance, n = 1, with_ties = FALSE)
+
 osce_infogob_matching <- distrital_matching %>% 
-    bind_rows(provincial_matching)
+    bind_rows(provincial_matching) %>% 
+    bind_rows(regional_matching)
 
 # write
 write_parquet(osce_infogob_matching, "data/02_intermediate/osce_infogob_entity_name_matching.parquet")
@@ -213,13 +240,14 @@ fuzzy_match <- fuzzy_match %>%
 write_parquet(fuzzy_match, "data/02_intermediate/mef_oci_matching.parquet")
 
 ### MEF - INFOGOB
-controles_infogob <- read_parquet("data/02_intermediate/controles_infogob.parquet")
+controles_infogob <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
 
 controles_infogob <- controles_infogob %>% 
     mutate(
         full_name = case_when(
             tipo_municipalidad == "distrital" ~ str_c("MUNICIPALIDAD DISTRITAL DE", distrito, sep = " "),
-            tipo_municipalidad == "provincial" ~ str_c("MUNICIPALIDAD PROVINCIAL DE", provincia, sep = " ")
+            tipo_municipalidad == "provincial" ~ str_c("MUNICIPALIDAD PROVINCIAL DE", provincia, sep = " "),
+            tipo_municipalidad == "regional" ~ str_c("GOBIERNO REGIONAL DE", region, sep = " ")
         )
     )
 
@@ -240,3 +268,60 @@ fuzzy_match <- fuzzy_match %>%
 # save
 write_parquet(fuzzy_match, "data/02_intermediate/mef_infogob_matching.parquet")
 
+### OSCE - MEF matching (for % canon)
+
+# osce metrics
+monthly_osce <- read_parquet("data/02_intermediate/OSCE/monthly_indices.parquet") %>% 
+    ungroup() %>% 
+    distinct(gobierno)
+mef_data <- read_parquet("data/02_intermediate/controles_percentage_canon_mensual.parquet") %>% 
+    ungroup() %>% 
+    distinct(gobierno)
+
+mean(unique(monthly_osce$gobierno) %in% unique(mef_data$gobierno)) # 93% natural matching
+
+# Exact match using gobierno
+exact_match_mef_osce <- monthly_osce %>%
+    ungroup() %>% 
+    select(gobierno) %>%
+    inner_join(mef_data, by = c("gobierno" = "gobierno"))
+
+# Find the names that did not match using gobierno
+osce_remaining <- monthly_osce %>%
+    anti_join(exact_match_mef_osce, by = c("gobierno" = "gobierno"))
+
+mef_remaining <- mef_data %>%
+    anti_join(exact_match_mef_osce, by = c("gobierno" = "gobierno"))
+
+# Perform fuzzy matching for the remaining entities
+osce_remaining_unique <- osce_remaining %>% 
+    select(gobierno) %>% 
+    distinct()
+
+mef_remaining_unique <- mef_remaining %>% 
+    select(gobierno) %>% 
+    distinct()
+
+fuzzy_match_mef_osce <- stringdist_inner_join(
+    mef_remaining_unique, 
+    osce_remaining_unique, 
+    by = c("gobierno" = "gobierno"), 
+    max_dist = 3, 
+    method = "lcs",
+    distance_col = NULL
+)
+
+exact_match_mef_osce$gobierno_mef = exact_match_mef_osce$gobierno
+exact_match_mef_osce <- exact_match_mef_osce %>% 
+    rename(gobierno_osce = gobierno)
+
+fuzzy_match_mef_osce <- fuzzy_match_mef_osce %>% 
+    rename(gobierno_osce = gobierno.x,
+           gobierno_mef = gobierno.y)
+
+
+# Combine the exact matches and the fuzzy matches
+all_matches <- rbind(exact_match_mef_osce, fuzzy_match_mef_osce)
+
+# Save all matches
+write_parquet(all_matches, "data/02_intermediate/all_matches_mef_osce.parquet")
