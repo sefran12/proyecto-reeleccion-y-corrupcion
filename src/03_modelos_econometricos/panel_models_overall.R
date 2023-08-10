@@ -2,7 +2,6 @@ library(tidyverse)
 library(huxtable)
 library(plm)
 library(officer)
-library(flextable)
 library(lmtest)
 library(purrr)
 
@@ -44,6 +43,9 @@ run_generalized_model <- function(df, index, model = "within", effect = "individ
                              "full" = "cutoff + cutoff:time_var + time_var + month_publicacion + 
                              numero_efectivo_partidos_category + competitividad_category + 
                              gender_of_mayor + OCI_exists_any + percentage_canon_category",
+                             "controls_no_interaction" = "cutoff + month_publicacion + 
+                             numero_efectivo_partidos_category + competitividad_category + 
+                             gender_of_mayor + OCI_exists_any + percentage_canon_category",
                              "cutoff + cutoff:time_var + time_var")
     
     if (model == "pooling") {
@@ -64,19 +66,19 @@ run_generalized_model <- function(df, index, model = "within", effect = "individ
 # Main function for generalized experiments
 run_all_experiments <- function(df, indices, model = "within") {
     results <- list()
-    control_var_specs <- c("no_controls", "month_publicacion", "full")
+    control_var_specs <- c("controls_no_interaction", "no_controls", "month_publicacion", "full")
     for (control_var_spec in control_var_specs) {
         print(paste0("Running experiment for ", control_var_spec, " control variable specification..."))
         models <- list()
         for (index in indices) {
-            model <- run_generalized_model(df, index, controls = control_var_spec)
-            models[[index]] <- model
+            model_ <- run_generalized_model(df, index, controls = control_var_spec, model = model)
+            models[[index]] <- model_
         }
         
         hux_tables <- lapply(models, create_hux_table)
         final_table <- do.call(cbind, hux_tables)
         final_table[] <- apply(final_table, c(1,2), round_if_number)
-        final_table[] <- apply(final_table, c(1), function(x) paste0("'", as.character(x)))
+        final_table[] <- apply(final_table, c(2), function(x) paste0("'", as.character(x)))
         final_table <- final_table %>% select(!starts_with("names.")) 
         colnames(final_table) <- c("name", indices)
         # Assign experiment name to the final table
@@ -96,7 +98,54 @@ concrete_indices_cols <- c("avg_bidders_per_project_original","avg_ratio_between
 results_latent_factor <- run_all_experiments(model_df, indices = latent_cols)
 results_concrete_indices <- run_all_experiments(model_df, indices = concrete_indices_cols)
 
+results_concrete_indices_pooling <- run_all_experiments(model_df, indices = concrete_indices_cols, model = "pooling")
+results_latent_factor_pooling <- run_all_experiments(model_df, indices = latent_cols, model = "pooling")
+
 results_latent_factor$full[[2]] %>% write_clip()
 results_concrete_indices$full[[2]] %>% write_clip()
 
-results_latent_factor$full[[2]] %>% huxtable::quick_docx(file = "latent_regs.docx")
+results_concrete_indices$controls_no_interaction[[2]] %>% write_clip()
+results_latent_factor$controls_no_interaction[[2]] %>% write_clip()
+
+results_latent_factor_pooling$no_controls[[2]] %>% write_clip()
+results_concrete_indices_pooling$no_controls[[2]] %>% write_clip()
+
+# Save
+filter_month_rows <- function(ht) {
+    # Convert huxtable to data frame for manipulation
+    ht_df <- as.data.frame(ht)
+    colnames(ht_df) <- str_remove(colnames(ht_df), "_original")
+    to_delete <- c()
+    
+    for(i in 2:nrow(ht_df)) {
+        # Check if current row seems like a standard error (using regex to identify values in parentheses)
+        if(any(str_detect(ht_df[i,], "^\\(.*\\)$"))) {
+            # Check if the previous row contains the substring "month"
+            if(any(str_detect(ht_df[i-1,], "month"))) {
+                to_delete <- c(to_delete, i-1, i)
+            }
+        }
+    }
+    
+    # Remove the flagged rows
+    ht_df <- ht_df[-to_delete, ]
+    
+    # Convert back to huxtable
+    ht_filtered <- as_hux(ht_df)
+    
+    return(ht_filtered)
+}
+
+# Usage:
+results_concrete_indices_full <- filter_month_rows(results_concrete_indices$full[[2]]) %>% 
+    theme_article() %>% 
+    set_width(1)
+results_latent_indices_full <- filter_month_rows(results_latent_factor$full[[2]]) %>% 
+    theme_article() %>% 
+    set_width(1)
+
+quick_xlsx(results_latent_indices_full,
+          file = "data/04_tables/latent_factor_models.xlsx")
+quick_xlsx(results_concrete_indices_full,
+          file = "data/04_tables/concrete_indices_models.xlsx")
+
