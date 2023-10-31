@@ -9,7 +9,9 @@ library(fuzzyjoin)
 
 # infogob
 controles_infogob <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
-combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/merged_adjudicaciones_data.parquet")
+#combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/merged_adjudicaciones_data.parquet")
+combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/combined_adjudicaciones_data_2017.parquet")
+### En la fila 12 le he cambiado el nombre del archivo por que decia merged_adjudicaciones y creo que eso era de la version previa
 
 # osce metrics
 monthly_osce <- read_parquet("data/02_intermediate/OSCE/monthly_indices.parquet")
