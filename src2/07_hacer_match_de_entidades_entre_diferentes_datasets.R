@@ -178,7 +178,11 @@ write_parquet(all_matches, "data/02_intermediate/osce_oci_entity_name_matching.p
 # to add the zeroes to our dataset.
 
 # get OCI data
-source("src/02_limpieza_de_datos/Controles/control_entidades_con_OCI.R")
+#source("src/02_limpieza_de_datos/Controles/control_entidades_con_OCI.R")
+### La fila 181 hace referencia al antiguo src - he agregado las tres líneas debajo. 
+monthly_panel<-read_parquet("data/02_intermediate/controles_OCI_mensual.parquet")
+semestral_panel<-read_parquet("data/02_intermediate/controles_OCI_semestral.parquet")
+yearly_panel<-read_parquet("data/02_intermediate/controles_OCI_yearly.parquet")
 
 # Merge with the panel data and fill in zeros for the OCI indices if an entity did not have an OCI
 monthly_panel <- monthly_panel %>%
