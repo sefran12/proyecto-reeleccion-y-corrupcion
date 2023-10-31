@@ -3,7 +3,6 @@ library(tidyverse)
 library(lubridate)
 
 df_ingresos <- fread("data/01_raw/EP_Estado_Ejecucion_Ingresos_2011_2020.csv")
-df_ingresos <- fread("~/Downloads/DATA_CIES/EP_Estado_Ejecucion_Ingresos_2011_2020.csv")
 
 
 canon_petrolifero <- df_ingresos %>% 
