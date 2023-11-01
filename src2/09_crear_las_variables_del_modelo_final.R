@@ -14,6 +14,7 @@ osce_infogob_oci_monthly <- read_parquet("data/03_model/osce_infogob_oci_monthly
 osce_infogob_oci_semestral <- read_parquet("data/03_model/osce_infogob_oci_semester_2017_overall.parquet") %>% ungroup()
 mef_infogob_oci_yearly <- read_parquet("data/03_model/mef_infogob_oci_anual.parquet") %>% ungroup()
 mef_osce_matching <- read_parquet("data/02_intermediate/all_matches_mef_osce.parquet")
+#Se debe eliminar la palarba "overall"
 
 # Normalize osce_month database
 osce_month <- osce_infogob_oci_monthly %>% 
