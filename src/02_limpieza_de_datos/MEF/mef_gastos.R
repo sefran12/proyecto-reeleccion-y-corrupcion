@@ -56,7 +56,7 @@ df_gastos_bs_serv <- df_gastos_bs_serv %>%
     mutate(
         gobierno = str_extract(PLIEGO_NOMBRE, regex_pattern),
         gobierno = str_remove(gobierno, "SEDE CENTRAL|Sede Central|sede central")
-    ) #%>% 
+    ) # %>% 
 #    filter(!is.na(gobierno))
 
 #2. 

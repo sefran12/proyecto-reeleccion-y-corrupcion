@@ -123,4 +123,4 @@ contrataciones_sin_proceso_nacional <- df_gastos_bs_serv %>%
     )
 
 # save
-#write_parquet(contrataciones_sin_proceso, "data/02_intermediate/MEF/mef_data.parquet")
+write_parquet(contrataciones_sin_proceso, "src2/data/01_mef_data.parquet")

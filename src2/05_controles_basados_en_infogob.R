@@ -152,9 +152,9 @@ yearly_infogob <- yearly_infogob %>%
     fill(fragmentation_index, max_porc_partido, numero_real_de_partidos, numero_efectivo_partidos, numero_partidos_molinar, hiperfraccionamiento, competitividad_index, gender_of_mayor, year, .direction = "downup")
 
 # Write data
-write_parquet(monthly_infogob, "data/02_intermediate/controles_infogob_mensual.parquet")
-write_parquet(semestral_infogob, "data/02_intermediate/controles_infogob_semestral.parquet")
-write_parquet(yearly_infogob, "data/02_intermediate/controles_infogob_anual.parquet")
+write_parquet(monthly_infogob, "src2/data/05_controles_infogob_mensual.parquet")
+write_parquet(semestral_infogob, "src2/data/05_controles_infogob_semestral.parquet")
+write_parquet(yearly_infogob, "src2/data/05_controles_infogob_anual.parquet")
 
 ## PLOTS FOR DEBUGGING AND ANALYSIS
 library(waffle)

@@ -4,11 +4,11 @@ library(lubridate)
 library(arrow)
 
 # load data
-combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/combined_adjudicaciones_data_2017.parquet")
-combined_df_postores <- read_parquet("data/02_intermediate/OSCE/combined_postores_data_2017.parquet")
-combined_df_contratos <- read_parquet("data/02_intermediate/OSCE/combined_contratos_data_2017.parquet")
-combined_df_invitados <- read_parquet("data/02_intermediate/OSCE/combined_invitados_data_2017.parquet")
-combined_df_pac <- read_parquet("data/02_intermediate/OSCE/combined_pac_data_2017.parquet")
+combined_df_adjudicaciones <- read_parquet("src2/data/02_combined_adjudicaciones_data_2017.parquet")
+combined_df_postores <- read_parquet("src2/data/02_combined_postores_data_2017.parquet")
+combined_df_contratos <- read_parquet("src2/data/02_combined_contratos_data_2017.parquet")
+combined_df_invitados <- read_parquet("src2/data/02_combined_invitados_data_2017.parquet")
+combined_df_pac <- read_parquet("src2/data/02_combined_pac_data_2017.parquet")
 
 # get IDs and time
 regex_pattern <- "^(GOBIERNO REGIONAL (?:DE )?\\w+|MUNICIPALIDAD (?:DISTRITAL|PROVINCIAL) (?:DE )?[\\w\\s]+?(?= -|- |$))"
@@ -195,8 +195,7 @@ indices_df <- indices_df %>%
 
 
 # save as parquet
-write_parquet(indices_df, "data/02_intermediate/OSCE/monthly_indices_2017.parquet")
-write.csv(indices_df, "data/02_intermediate/OSCE/monthly_indices_2017.csv")
+write_parquet(indices_df, "src2/data/03_monthly_indices_2017.parquet")
 
 #### SEMESTRALES
 ## Concentration indices
@@ -322,4 +321,4 @@ semestral_df %>%
 
 
 # write 
-write_parquet(semestral_df, "data/02_intermediate/OSCE/semestral_indices_2017.parquet")
+write_parquet(semestral_df, "src2/data/03_semestral_indices_2017.parquet")

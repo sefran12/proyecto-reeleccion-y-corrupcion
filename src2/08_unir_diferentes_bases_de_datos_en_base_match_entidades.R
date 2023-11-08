@@ -2,27 +2,32 @@
 library(tidyverse)
 library(arrow)
 
-monthly_indices_df <- read_parquet("data/02_intermediate/OSCE/monthly_indices_2017.parquet")
-controles_oci_monthly <- read_parquet("data/02_intermediate/controles_OCI_mensual.parquet")
-controles_infogob_monthly <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
-controles_canon_monthly <- read_parquet("data/02_intermediate/controles_percentage_canon_mensual.parquet")
+# Monthly datasets
+monthly_indices_df <- read_parquet("src2/data/03_monthly_indices_2017.parquet")
+controles_oci_monthly <- read_parquet("src2/data/04_controles_OCI_mensual.parquet")
+controles_infogob_monthly <- read_parquet("src2/data/05_controles_infogob_mensual.parquet")
+controles_canon_monthly <- read_parquet("src2/data/06_controles_percentage_canon_mensual.parquet")
 
-semestral_indices_df <- read_parquet("data/02_intermediate/OSCE/semestral_indices_2017.parquet")
-controles_oci_semestral <- read_parquet("data/02_intermediate/controles_OCI_semestral.parquet")
-controles_infogob_semestral <- read_parquet("data/02_intermediate/controles_infogob_semestral.parquet")
-controles_canon_semestral <- read_parquet("data/02_intermediate/controles_percentage_canon_semestral.parquet")
+# Semestral datasets
+semestral_indices_df <- read_parquet("src2/data/03_semestral_indices_2017.parquet")
+controles_oci_semestral <- read_parquet("src2/data/04_controles_OCI_semestral.parquet")
+controles_infogob_semestral <- read_parquet("src2/data/05_controles_infogob_semestral.parquet")
+controles_canon_semestral <- read_parquet("src2/data/06_controles_percentage_canon_semestral.parquet")
 
-osce_infogob_matching <- read_parquet("data/02_intermediate/osce_infogob_entity_name_matching.parquet")
-osce_oci_matching <- read_parquet("data/02_intermediate/osce_oci_entity_name_matching.parquet")
-mef_osce_matching <- read_parquet("data/02_intermediate/all_matches_mef_osce.parquet")
+# Matching datasets
+osce_infogob_matching <- read_parquet("src2/data/07_osce_infogob_entity_name_matching.parquet")
+osce_oci_matching <- read_parquet("src2/data/07_osce_oci_entity_name_matching.parquet")
+mef_osce_matching <- read_parquet("src2/data/07_all_matches_mef_osce.parquet")
 
-mef_indices_df <- read_parquet("data/02_intermediate/MEF/mef_data.parquet")
-mef_infogob_matching <- read_parquet("data/02_intermediate/mef_infogob_matching.parquet")
-mef_oci_matching <- read_parquet("data/02_intermediate/mef_oci_matching.parquet")
+# MEF datasets
+mef_indices_df <- read_parquet("src2/data/01_mef_data.parquet")
+mef_infogob_matching <- read_parquet("src2/data/07_mef_infogob_matching.parquet")
+mef_oci_matching <- read_parquet("src2/data/07_mef_oci_matching.parquet")
 
-controles_oci_yearly <- read_parquet("data/02_intermediate/controles_OCI_yearly.parquet")
-controles_infogob_yearly <- read_parquet("data/02_intermediate/controles_infogob_anual.parquet")
-controles_canon_yearly <- read_parquet("data/02_intermediate/controles_percentage_canon_anual.parquet")
+# Yearly datasets
+controles_oci_yearly <- read_parquet("src2/data/04_controles_OCI_yearly.parquet")
+controles_infogob_yearly <- read_parquet("src2/data/05_controles_infogob_anual.parquet")
+controles_canon_yearly <- read_parquet("src2/data/06_controles_percentage_canon_anual.parquet")
 
 ### OSCE
 ## Monthly
@@ -33,7 +38,7 @@ osce_infogob2 <- monthly_indices_df %>% ungroup() %>%
     left_join(controles_canon_monthly, by = c("gobierno_osce" = "gobierno", "mesanho_publicacion" = "ANO_EJE")) %>% 
     left_join(controles_infogob_monthly %>% rename(mesanho_publicacion = date), by = c("region", "provincia", "distrito", "mesanho_publicacion")) %>% 
     left_join(controles_oci_monthly %>% rename(mesanho_publicacion = date),
-              by = c("gobierno", "mesanho_publicacion"))
+              by = c("gobierno" = "nombre_entidad", "mesanho_publicacion"))
 
 # Fill missing OCI controls with zero (since they are not in the database of OCIs, they don't have one)
 osce_infogob2 <- osce_infogob2 %>%
@@ -48,8 +53,8 @@ osce_infogob2 <- osce_infogob2 %>%
     ungroup()
 
 # save
-write_parquet(osce_infogob2, "data/03_model/osce_infogob_oci_monthly_2017.parquet") 
-write.csv(osce_infogob2, "data/03_model/osce_infogob_oci_monthly_2017.csv")
+write_parquet(osce_infogob2, "src2/data/08_osce_infogob_oci_monthly_2017.parquet") 
+write.csv(osce_infogob2, "src2/data/08_osce_infogob_oci_monthly_2017.csv")
 
 ## semestral
 osce_infogob3 <- semestral_indices_df %>% 
@@ -57,7 +62,7 @@ osce_infogob3 <- semestral_indices_df %>%
     left_join(osce_infogob_matching, by = c("gobierno")) %>% 
     left_join(controles_infogob_semestral %>% rename(semester = date), by = c("region", "provincia", "distrito", "semester")) %>% 
     left_join(controles_oci_semestral %>% rename(semester = date),
-              by = c("gobierno", "semester"))
+              by = c("gobierno" = "nombre_entidad", "semester"))
 
 osce_infogob3 <- osce_infogob3 %>%
     replace_na(list(
@@ -80,8 +85,8 @@ controles_infogob_monthly %>%
     ) %>% clipr::write_clip()
 
 # save
-write_parquet(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017.parquet") 
-write.csv(osce_infogob3, "data/03_model/osce_infogob_oci_semester_2017.csv")
+write_parquet(osce_infogob3, "src2/data/08_osce_infogob_oci_semester_2017.parquet") 
+write.csv(osce_infogob3, "src2/data/08_osce_infogob_oci_semester_2017.csv")
 
 ### MEF
 mef_total <- mef_indices_df %>% 
@@ -94,4 +99,5 @@ mef_total <- mef_indices_df %>%
     left_join(controles_oci_yearly,
               by = c("nombre_entidad", "date"))
 
-write_parquet(mef_total, "data/03_model/mef_infogob_oci_anual.parquet")
+# Save paths for MEF
+write_parquet(mef_total, "src2/data/08_mef_infogob_oci_anual.parquet")

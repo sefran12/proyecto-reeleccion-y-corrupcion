@@ -55,6 +55,6 @@ semestral_panel <- create_panel(semestral_dates)
 yearly_panel <- create_panel(yearly_dates)
 
 # write data
-write_parquet(monthly_panel, "data/02_intermediate/controles_OCI_mensual.parquet")
-write_parquet(semestral_panel, "data/02_intermediate/controles_OCI_semestral.parquet")
-write_parquet(yearly_panel, "data/02_intermediate/controles_OCI_yearly.parquet")
+write_parquet(monthly_panel, "src2/data/04_controles_OCI_mensual.parquet")
+write_parquet(semestral_panel, "src2/data/04_controles_OCI_semestral.parquet")
+write_parquet(yearly_panel, "src2/data/04_controles_OCI_yearly.parquet")

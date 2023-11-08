@@ -8,11 +8,11 @@ library(fuzzyjoin)
 ## OSCE - INFOGOB
 
 # infogob
-controles_infogob <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
-combined_df_adjudicaciones <- read_parquet("data/02_intermediate/OSCE/merged_adjudicaciones_data.parquet")
+controles_infogob <- read_parquet("src2/data/05_controles_infogob_mensual.parquet")
+combined_df_adjudicaciones <- read_parquet("src2/data/02_combined_adjudicaciones_data_2017.parquet")
 
 # osce metrics
-monthly_osce <- read_parquet("data/02_intermediate/OSCE/monthly_indices.parquet")
+monthly_osce <- read_parquet("src2/data/03_monthly_indices_2017.parquet")
 
 # Link UBIGEO to municipalidad, create full government name
 
@@ -104,7 +104,7 @@ osce_infogob_matching <- distrital_matching %>%
     bind_rows(regional_matching)
 
 # write
-write_parquet(osce_infogob_matching, "data/02_intermediate/osce_infogob_entity_name_matching.parquet")
+write_parquet(osce_infogob_matching, "src2/data/07_osce_infogob_entity_name_matching.parquet")
 
 ### LINK gobiernos CON OCI with OSCE
 
@@ -170,13 +170,13 @@ all_matches <- exact_match %>%
 # There are many entities in a GOBIERNO. Let's take the existence of at least 1 as 1.
 
 # save
-write_parquet(all_matches, "data/02_intermediate/osce_oci_entity_name_matching.parquet")
+write_parquet(all_matches, "src2/data/07_osce_oci_entity_name_matching.parquet")
 
 # If the entity was not found in the OCI data, it means that that entity had no OCI. So we need
 # to add the zeroes to our dataset.
 
 # get OCI data
-source("src/02_limpieza_de_datos/Controles/control_entidades_con_OCI.R")
+source("src2/04_control_entidades_con_OCI.R")
 
 # Merge with the panel data and fill in zeros for the OCI indices if an entity did not have an OCI
 monthly_panel <- monthly_panel %>%
@@ -214,11 +214,11 @@ semestral_panel <- semestral_panel %>%
     )
 
 # Rewrite and update
-write_parquet(monthly_panel, "data/02_intermediate/controles_OCI_mensual.parquet")
-write_parquet(semestral_panel, "data/02_intermediate/controles_OCI_semestral.parquet")
+write_parquet(monthly_panel, "src2/data/07_controles_OCI_mensual.parquet")
+write_parquet(semestral_panel, "src2/data/07_controles_OCI_semestral.parquet")
 
 ### MEF - OCI
-mef_data <- read_parquet("data/02_intermediate/MEF/mef_data.parquet")
+mef_data <- read_parquet("src2/data/01_mef_data.parquet")
 
 OCI_df <- read_excel("data/01_raw/ESTADO DE ENTIDADES CON OCI INCORPORADOS AL_15FEB2023_rev (1).xlsx", sheet = 2)
 OCI_df <- clean_names(OCI_df)
@@ -237,10 +237,10 @@ fuzzy_match <- fuzzy_match %>%
     slice_min(string_distance, n = 1, with_ties = FALSE)
 
 # save
-write_parquet(fuzzy_match, "data/02_intermediate/mef_oci_matching.parquet")
+write_parquet(fuzzy_match, "src2/data/07_mef_oci_matching.parquet")
 
 ### MEF - INFOGOB
-controles_infogob <- read_parquet("data/02_intermediate/controles_infogob_mensual.parquet")
+controles_infogob <- read_parquet("src2/data/05_controles_infogob_mensual.parquet")
 
 controles_infogob <- controles_infogob %>% 
     mutate(
@@ -266,15 +266,15 @@ fuzzy_match <- fuzzy_match %>%
     slice_min(string_distance, n = 1, with_ties = FALSE)
 
 # save
-write_parquet(fuzzy_match, "data/02_intermediate/mef_infogob_matching.parquet")
+write_parquet(fuzzy_match, "src2/data/07_mef_infogob_matching.parquet")
 
 ### OSCE - MEF matching (for % canon)
 
 # osce metrics
-monthly_osce <- read_parquet("data/02_intermediate/OSCE/monthly_indices.parquet") %>% 
+monthly_osce <- read_parquet("src2/data/03_monthly_indices_2017.parquet") %>% 
     ungroup() %>% 
     distinct(gobierno)
-mef_data <- read_parquet("data/02_intermediate/controles_percentage_canon_mensual.parquet") %>% 
+mef_data <- read_parquet("src2/data/06_controles_percentage_canon_mensual.parquet") %>% 
     ungroup() %>% 
     distinct(gobierno)
 
@@ -324,4 +324,4 @@ fuzzy_match_mef_osce <- fuzzy_match_mef_osce %>%
 all_matches <- rbind(exact_match_mef_osce, fuzzy_match_mef_osce)
 
 # Save all matches
-write_parquet(all_matches, "data/02_intermediate/all_matches_mef_osce.parquet")
+write_parquet(all_matches, "src2/data/07_all_matches_mef_osce.parquet")

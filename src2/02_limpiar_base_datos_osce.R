@@ -62,8 +62,7 @@ combined_df_postores <- combined_df_postores %>%
     )
 
 # Write the combined dataset to a new CSV file
-write.csv(combined_df_postores, "data/02_intermediate/OSCE/combined_postores_data_2017.csv", row.names = FALSE)
-write_parquet(combined_df_postores, "data/02_intermediate/OSCE/combined_postores_data_2017.parquet")
+write_parquet(combined_df_postores, "src2/data/02_combined_postores_data_2017.parquet")
 
 rm(df_2010_2014, df_2015_2017, shared_columns, df_2010_2014_shared, df_2015_2017_shared)
 
@@ -115,8 +114,7 @@ df_2010_2017 <- df_2010_2017 %>%
 combined_df_contratos <- bind_rows(df_2010_2017)
 
 # Write the combined dataset to a new CSV file
-write.csv(combined_df_contratos, "data/02_intermediate/OSCE/combined_contratos_data_2017.csv", row.names = FALSE)
-write_parquet(combined_df_contratos, "data/02_intermediate/OSCE/combined_contratos_data_2017.parquet")
+write_parquet(combined_df_contratos, "src2/data/02_combined_contratos_data_2017.parquet")
 
 rm(df_2010_2017)
 
@@ -249,7 +247,7 @@ combined_df_adjudicaciones <- combined_df_adjudicaciones %>%
     )
 
 # Write the combined dataset to a PARQUET file
-write_parquet(combined_df_adjudicaciones, "data/02_intermediate/OSCE/combined_adjudicaciones_data_2017.parquet")
+write_parquet(combined_df_adjudicaciones, "src2/data/02_combined_adjudicaciones_data_2017.parquet")
 
 # clean memory
 rm(df1, df2, df1_shared, df2_shared, df1_converted, df2_converted, conversions, shared_columns)
@@ -395,7 +393,7 @@ combined_df_invitados <- combined_df_invitados %>%
     )
 
 # Write the combined dataset to a PARQUET file
-write_parquet(combined_df_invitados, "data/02_intermediate/OSCE/combined_invitados_data_2017.parquet")
+write_parquet(combined_df_invitados, "src2/data/02_combined_invitados_data_2017.parquet")
 
 ## PAC
 
@@ -478,4 +476,4 @@ combined_df_pac <- combined_df_pac %>%
     )
 
 # Write the combined dataset to a PARQUET file
-write_parquet(combined_df_pac, "data/02_intermediate/OSCE/combined_pac_data_2017.parquet")
+write_parquet(combined_df_pac, "src2/data/02_combined_pac_data_2017.parquet")
