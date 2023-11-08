@@ -98,7 +98,6 @@ combined_data <- combined_data %>%
     ungroup()
 
 # Dealing with NAs
-
 combined_data_clean <- combined_data %>%
     mutate(numero_efectivo_partidos = if_else(is.infinite(numero_efectivo_partidos), mean(1), numero_efectivo_partidos)) %>% 
     select(gobierno, mesanho_publicacion, tipo_municipalidad, avg_bidders_per_project, avg_ratio_between_winner_and_publicado,
