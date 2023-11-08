@@ -55,12 +55,13 @@ osce_semester <- osce_infogob_oci_semestral %>%
 
 # Normalize mef_yearly database
 mef_yearly <- mef_infogob_oci_yearly %>% 
+    ungroup() %>% 
     select(
         gobierno,
         mesanho_publicacion = date,
         tipo_municipalidad = tipo_municipalidad.x,
-        ,
-        perc_proyectos_sobrecosto
+        perc_proyectos_sobrecosto,
+        perc_proyectos_debajo_cutoff
     ) %>%
     mutate(
         start_date = ymd(mesanho_publicacion),
