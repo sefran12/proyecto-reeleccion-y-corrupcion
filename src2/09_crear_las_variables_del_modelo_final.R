@@ -10,10 +10,10 @@ library(plm)
 theme_set(theme_bw())
 
 # Read data
-osce_infogob_oci_monthly <- read_parquet("data/03_model/osce_infogob_oci_monthly_2017_overall.parquet") %>% ungroup()
-osce_infogob_oci_semestral <- read_parquet("data/03_model/osce_infogob_oci_semester_2017_overall.parquet") %>% ungroup()
-mef_infogob_oci_yearly <- read_parquet("data/03_model/mef_infogob_oci_anual.parquet") %>% ungroup()
-mef_osce_matching <- read_parquet("data/02_intermediate/all_matches_mef_osce.parquet")
+osce_infogob_oci_monthly <- read_parquet("src2/data/08_osce_infogob_oci_monthly_2017.parquet")#("data/03_model/osce_infogob_oci_monthly_2017_overall.parquet") %>% ungroup()
+osce_infogob_oci_semestral <- read_parquet("src2/data/08_osce_infogob_oci_semester_2017.parquet")#"data/03_model/osce_infogob_oci_semester_2017_overall.parquet") %>% ungroup()
+mef_infogob_oci_yearly <- read_parquet("src2/data/07_mef_infogob_matching.parquet")#"data/03_model/mef_infogob_oci_anual.parquet") %>% ungroup()
+mef_osce_matching <- read_parquet("src2/data/07_all_matches_mef_osce.parquet")#"data/02_intermediate/all_matches_mef_osce.parquet")
 
 # Normalize osce_month database
 osce_month <- osce_infogob_oci_monthly %>% 
@@ -57,9 +57,9 @@ osce_semester <- osce_infogob_oci_semestral %>%
 mef_yearly <- mef_infogob_oci_yearly %>% 
     select(
         gobierno,
-        mesanho_publicacion = date,
-        tipo_municipalidad = tipo_municipalidad.x,
-        perc_proyectos_debajo_cutoff,
+        mesanho_publicacion = `year(date)`,
+        tipo_municipalidad = tipo_municipalidad,
+        ,
         perc_proyectos_sobrecosto
     ) %>%
     mutate(

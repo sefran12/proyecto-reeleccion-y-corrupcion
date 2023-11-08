@@ -4,13 +4,13 @@ library(arrow)
 
 # Monthly datasets
 monthly_indices_df <- read_parquet("src2/data/03_monthly_indices_2017.parquet")
-controles_oci_monthly <- read_parquet("src2/data/04_controles_OCI_mensual.parquet")
+controles_oci_monthly <- read_parquet("src2/data/07_controles_OCI_mensual.parquet")
 controles_infogob_monthly <- read_parquet("src2/data/05_controles_infogob_mensual.parquet")
 controles_canon_monthly <- read_parquet("src2/data/06_controles_percentage_canon_mensual.parquet")
 
 # Semestral datasets
 semestral_indices_df <- read_parquet("src2/data/03_semestral_indices_2017.parquet")
-controles_oci_semestral <- read_parquet("src2/data/04_controles_OCI_semestral.parquet")
+controles_oci_semestral <- read_parquet("src2/data/07_controles_OCI_semestral.parquet")
 controles_infogob_semestral <- read_parquet("src2/data/05_controles_infogob_semestral.parquet")
 controles_canon_semestral <- read_parquet("src2/data/06_controles_percentage_canon_semestral.parquet")
 
@@ -38,7 +38,7 @@ osce_infogob2 <- monthly_indices_df %>% ungroup() %>%
     left_join(controles_canon_monthly, by = c("gobierno_osce" = "gobierno", "mesanho_publicacion" = "ANO_EJE")) %>% 
     left_join(controles_infogob_monthly %>% rename(mesanho_publicacion = date), by = c("region", "provincia", "distrito", "mesanho_publicacion")) %>% 
     left_join(controles_oci_monthly %>% rename(mesanho_publicacion = date),
-              by = c("gobierno" = "nombre_entidad", "mesanho_publicacion"))
+              by = c("gobierno", "mesanho_publicacion"))
 
 # Fill missing OCI controls with zero (since they are not in the database of OCIs, they don't have one)
 osce_infogob2 <- osce_infogob2 %>%
@@ -62,7 +62,7 @@ osce_infogob3 <- semestral_indices_df %>%
     left_join(osce_infogob_matching, by = c("gobierno")) %>% 
     left_join(controles_infogob_semestral %>% rename(semester = date), by = c("region", "provincia", "distrito", "semester")) %>% 
     left_join(controles_oci_semestral %>% rename(semester = date),
-              by = c("gobierno" = "nombre_entidad", "semester"))
+              by = c("gobierno", "semester"))
 
 osce_infogob3 <- osce_infogob3 %>%
     replace_na(list(
@@ -101,3 +101,4 @@ mef_total <- mef_indices_df %>%
 
 # Save paths for MEF
 write_parquet(mef_total, "src2/data/08_mef_infogob_oci_anual.parquet")
+
